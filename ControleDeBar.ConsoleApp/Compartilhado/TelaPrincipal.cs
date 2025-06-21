@@ -1,4 +1,5 @@
-﻿using ControleDeBar.ConsoleApp.ModuloMesa;
+﻿using ControleDeBar.ConsoleApp.ModuloGarcom;
+using ControleDeBar.ConsoleApp.ModuloMesa;
 
 namespace ControleDeBar.ConsoleApp.Compartilhado
 {
@@ -10,10 +11,16 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
         public RepositorioMesa<Mesa> repositorioMesa;
         public TelaMesa telaMesa;
 
+        public RepositorioGarcom<Garcom> repositorioGarcom;
+        public TelaGarcom telaGarcom;
+
         public TelaPrincipal()
         {
             repositorioMesa = new RepositorioMesa<Mesa>();
             telaMesa = new TelaMesa(repositorioMesa);
+
+            repositorioGarcom = new RepositorioGarcom<Garcom>();
+            telaGarcom = new TelaGarcom(repositorioGarcom);
         }
 
         public void EscolherOpcaoMenuPrincipal()
@@ -24,6 +31,7 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
 
             Console.WriteLine();
             Console.WriteLine("1- Controle de Mesas");
+            Console.WriteLine("2- Controle de Garçons");
             Console.WriteLine("S- Sair");
             Console.WriteLine();
 
@@ -35,6 +43,8 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
         {
             if (opcaoEscolhida == "1") 
                 return telaMesa;
+            if (opcaoEscolhida == "2")
+                return telaGarcom;
             if (opcaoEscolhida == "S".ToLower())
             {
                 fecharSistema = true;

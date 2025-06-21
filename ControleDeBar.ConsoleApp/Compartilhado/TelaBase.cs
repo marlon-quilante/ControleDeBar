@@ -41,14 +41,23 @@
             Console.ReadLine();
         }
 
-        public virtual void Cadastrar()
+        public void Cadastrar()
         {
             Console.Clear();
             Console.WriteLine("---------------------");
             Console.WriteLine($"Cadastrar {entidade}");
             Console.WriteLine("---------------------\n");
-
             T registro = ObterDados();
+            
+            string erros = registro.ValidacaoDeDados(registro);
+
+            if (erros != string.Empty)
+            {
+                ApresentarMensagem(erros, ConsoleColor.Red);
+                Console.Clear();
+                Cadastrar();
+                return;
+            }
 
             if (repositorioBase.RegistroDuplicado(registro))
             {
@@ -79,15 +88,16 @@
             Console.WriteLine($"Editar {entidade}");
             Console.WriteLine("---------------------\n");
 
-            int idRegistro = BuscarID();
+            Console.WriteLine("Digite o ID do registro que deseja editar...\n");
+            int idRegistro = ObterID();
             T registroAtual = repositorioBase.BuscarRegistroPorID(idRegistro);
 
             Console.WriteLine();
             T registroAtualizado = ObterDados();
+            registroAtualizado.Id = registroAtual.Id;
 
             if (repositorioBase.RegistroDuplicado(registroAtualizado))
             {
-                Console.WriteLine();
                 ApresentarMensagem("Este registro já existe!", ConsoleColor.Red);
                 Console.Clear();
                 Editar();
@@ -108,7 +118,7 @@
             Console.WriteLine("---------------------\n");
 
             Console.WriteLine("Digite o ID do registro que deseja excluir...\n");
-            int idRegistro = BuscarID();
+            int idRegistro = ObterID();
             T entidadeBase = repositorioBase.BuscarRegistroPorID(idRegistro);
             repositorioBase.Excluir(entidadeBase);
             ApresentarMensagem("Exclusão realizada com sucesso!", ConsoleColor.Green);
@@ -116,7 +126,7 @@
 
         public abstract T ObterDados();
 
-        public int BuscarID()
+        public int ObterID()
         {
             int id = 0;
             bool idValido = false;
@@ -124,7 +134,7 @@
 
             while (!idValido || !idExiste)
             {
-                Console.Write("Digite o ID: ");
+                Console.Write("ID: ");
                 idValido = int.TryParse(Console.ReadLine(), out id);
 
                 if (!idValido)
