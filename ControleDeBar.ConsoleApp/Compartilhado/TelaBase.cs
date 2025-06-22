@@ -33,11 +33,8 @@
         public void ApresentarMensagem(string mensagem, ConsoleColor cor)
         {
             Console.ForegroundColor = cor;
-            Console.WriteLine();
             Console.WriteLine(mensagem);
             Console.ResetColor();
-            Console.WriteLine();
-            Console.Write("Pressione ENTER para continuar...");
             Console.ReadLine();
         }
 
@@ -49,10 +46,11 @@
             Console.WriteLine("---------------------\n");
             T registro = ObterDados();
             
-            string erros = registro.ValidacaoDeDados(registro);
+            string erros = registro.ValidacaoDeDados();
 
             if (erros != string.Empty)
             {
+                Console.WriteLine();
                 ApresentarMensagem(erros, ConsoleColor.Red);
                 Console.Clear();
                 Cadastrar();
@@ -61,6 +59,7 @@
 
             if (repositorioBase.RegistroDuplicado(registro))
             {
+                Console.WriteLine();
                 ApresentarMensagem("Já existe um cadastro com esses dados!", ConsoleColor.Red);
                 Console.Clear();
                 Cadastrar();
@@ -69,6 +68,7 @@
             else
             {
                 repositorioBase.Cadastrar(registro);
+                Console.WriteLine();
                 ApresentarMensagem("Cadastro realizado com sucesso!", ConsoleColor.Green);
             }
         }
@@ -98,6 +98,7 @@
 
             if (repositorioBase.RegistroDuplicado(registroAtualizado))
             {
+                Console.WriteLine();
                 ApresentarMensagem("Este registro já existe!", ConsoleColor.Red);
                 Console.Clear();
                 Editar();
@@ -106,6 +107,7 @@
             else
             {
                 repositorioBase.Editar(registroAtual, registroAtualizado);
+                Console.WriteLine();
                 ApresentarMensagem("Edição realizada com sucesso!", ConsoleColor.Green);
             }
         }
@@ -121,6 +123,7 @@
             int idRegistro = ObterID();
             T entidadeBase = repositorioBase.BuscarRegistroPorID(idRegistro);
             repositorioBase.Excluir(entidadeBase);
+            Console.WriteLine();
             ApresentarMensagem("Exclusão realizada com sucesso!", ConsoleColor.Green);
         }
 
@@ -139,8 +142,8 @@
 
                 if (!idValido)
                 {
-                    Console.WriteLine("\nID inválido! Pressione ENTER para tentar novamente...");
-                    Console.ReadLine();
+                    Console.WriteLine();
+                    ApresentarMensagem("ID inválido! Pressione ENTER para tentar novamente...", ConsoleColor.Yellow);
                     continue;
                 }
 
@@ -148,8 +151,8 @@
 
                 if (!idExiste)
                 {
-                    Console.WriteLine("\nEste ID não está cadastrado! Pressione ENTER para tentar novamente...");
-                    Console.ReadLine();
+                    Console.WriteLine();
+                    ApresentarMensagem("Este ID não está cadastrado! Pressione ENTER para tentar novamente...", ConsoleColor.Yellow);
                     continue;
                 }
             }

@@ -1,6 +1,4 @@
-﻿using ControleDeBar.ConsoleApp.ModuloMesa;
-
-namespace ControleDeBar.ConsoleApp.Compartilhado
+﻿namespace ControleDeBar.ConsoleApp.Compartilhado
 {
     public abstract class RepositorioBase<T> where T : EntidadeBase<T>
     {

@@ -15,21 +15,6 @@ namespace ControleDeBar.ConsoleApp.ModuloMesa
             this.repositorioMesa = repositorioMesa;
         }
 
-        public override void Visualizar()
-        {
-            base.Visualizar();
-
-            Console.WriteLine("{0,-5} | {1,-7} | {2,-10} | {3, -10}", 
-                "ID", "Número", "Capacidade", "Status");
-            foreach (Mesa mesa in repositorioMesa.listaRegistros)
-            {
-                Console.WriteLine("{0,-5} | {1,-7} | {2,-10} | {3, -10}",
-                mesa.Id, mesa.Numero, mesa.QtdLugares, mesa.Status);
-            }
-            Console.Write("\nPressione ENTER para continuar...");
-            Console.ReadLine();
-        }
-
         public override Mesa ObterDados()
         {
             while (!numeroMesaValido || !qtdLugaresValido)
@@ -41,13 +26,28 @@ namespace ControleDeBar.ConsoleApp.ModuloMesa
 
                 if (!numeroMesaValido || !qtdLugaresValido)
                 {
-                    Console.WriteLine("\nDados inválidos! Pressione ENTER para tentar novamente...");
-                    Console.ReadLine();
+                    Console.WriteLine();
+                    ApresentarMensagem("Dados inválidos! Pressione ENTER para tentar novamente...", ConsoleColor.Yellow);
                 }
             }
             numeroMesaValido = false;
             qtdLugaresValido = false;
             return new Mesa(numeroMesa, qtdLugares);
+        }
+
+        public override void Visualizar()
+        {
+            base.Visualizar();
+
+            Console.WriteLine("{0,-5} | {1,-7} | {2,-10} | {3, -10}", 
+                "ID", "Número", "Capacidade", "Status");
+            foreach (Mesa mesa in repositorioMesa.listaRegistros)
+            {
+                Console.WriteLine("{0,-5} | {1,-7} | {2,-10} | {3, -10}",
+                mesa.Id, mesa.Numero, mesa.QtdLugares, mesa.Status);
+            }
+            Console.WriteLine();
+            ApresentarMensagem("Pressione ENTER para continuar...", ConsoleColor.Yellow);
         }
     }
 }

@@ -4,6 +4,6 @@
     {
         public int Id { get; set; }
 
-        public abstract string ValidacaoDeDados(T entidadeBase);
+        public abstract string ValidacaoDeDados();
     }
 }

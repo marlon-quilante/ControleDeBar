@@ -24,7 +24,7 @@ namespace ControleDeBar.ConsoleApp.ModuloMesa
             Status = "Livre";
         }
 
-        public override string ValidacaoDeDados(Mesa mesa)
+        public override string ValidacaoDeDados()
         {
             string erros = string.Empty;
             return erros;

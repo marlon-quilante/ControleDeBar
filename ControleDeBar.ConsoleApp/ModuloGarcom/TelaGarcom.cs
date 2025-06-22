@@ -34,8 +34,8 @@ namespace ControleDeBar.ConsoleApp.ModuloGarcom
                 Console.WriteLine("{0,-5} | {1,-20} | {2,-15}",
                 garcom.Id, garcom.Nome, garcom.CPF);
             }
-            Console.Write("\nPressione ENTER para continuar...");
-            Console.ReadLine();
+            Console.WriteLine();
+            ApresentarMensagem("Pressione ENTER para continuar...", ConsoleColor.Yellow);
         }
     }
 }

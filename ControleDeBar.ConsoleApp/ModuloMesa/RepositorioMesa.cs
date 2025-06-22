@@ -17,12 +17,12 @@ namespace ControleDeBar.ConsoleApp.ModuloMesa
             return false;
         }
 
-        public override void Editar(Mesa registroAtual, Mesa registroAtualizado)
+        public override void Editar(Mesa mesaAtual, Mesa mesaAtualizada)
         {
-            if (registroAtual != null && registroAtualizado != null)
+            if (mesaAtual != null && mesaAtualizada != null)
             {
-                registroAtual.Numero = registroAtualizado.Numero;
-                registroAtual.QtdLugares = registroAtualizado.QtdLugares;
+                mesaAtual.Numero = mesaAtualizada.Numero;
+                mesaAtual.QtdLugares = mesaAtualizada.QtdLugares;
             }
         }
     }

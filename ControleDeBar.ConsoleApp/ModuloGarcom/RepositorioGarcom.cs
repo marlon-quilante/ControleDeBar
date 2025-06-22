@@ -17,12 +17,12 @@ namespace ControleDeBar.ConsoleApp.ModuloGarcom
             return false;
         }
 
-        public override void Editar(Garcom registroAtual, Garcom registroAtualizado)
+        public override void Editar(Garcom garcomAtual, Garcom garcomAtualizado)
         {
-            if (registroAtual != null && registroAtualizado != null)
+            if (garcomAtual != null && garcomAtualizado != null)
             {
-                registroAtual.Nome = registroAtualizado.Nome;
-                registroAtual.CPF = registroAtualizado.CPF;
+                garcomAtual.Nome = garcomAtualizado.Nome;
+                garcomAtual.CPF = garcomAtualizado.CPF;
             }
         }
     }

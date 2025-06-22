@@ -13,13 +13,13 @@ namespace ControleDeBar.ConsoleApp.ModuloGarcom
             CPF = cpf;
         }
 
-        public override string ValidacaoDeDados(Garcom garcom)
+        public override string ValidacaoDeDados()
         {
             string erros = string.Empty;
 
-            if (garcom.Nome.Length < 3 || garcom.Nome.Length > 100)
+            if (Nome.Length < 3 || Nome.Length > 100)
                 erros += "O nome precisa conter entre 3 e 100 caracteres!\n";
-            if (!CPFValido(garcom.CPF))
+            if (!CPFValido(CPF))
                 erros += "CPF inválido!";
 
             return erros;
