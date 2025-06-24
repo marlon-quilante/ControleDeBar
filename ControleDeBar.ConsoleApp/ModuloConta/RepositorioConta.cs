@@ -3,7 +3,7 @@ using ControleDeBar.ConsoleApp.ModuloProduto;
 
 namespace ControleDeBar.ConsoleApp.ModuloConta
 {
-    public class RepositorioConta<T> : RepositorioBase<Conta>
+    public class RepositorioConta : RepositorioBase<Conta>
     {
         public override void Cadastrar(Conta conta)
         {

@@ -10,30 +10,30 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
         private string opcaoEscolhida;
         public bool fecharSistema = false;
 
-        public RepositorioMesa<Mesa> repositorioMesa;
+        public RepositorioMesa repositorioMesa;
         public TelaMesa telaMesa;
 
-        public RepositorioGarcom<Garcom> repositorioGarcom;
+        public RepositorioGarcom repositorioGarcom;
         public TelaGarcom telaGarcom;
 
-        public RepositorioProduto<Produto> repositorioProduto;
+        public RepositorioProduto repositorioProduto;
         public TelaProduto telaProduto;
 
-        public RepositorioConta<Conta> repositorioConta;
+        public RepositorioConta repositorioConta;
         public TelaConta telaConta;
 
         public TelaPrincipal()
         {
-            repositorioMesa = new RepositorioMesa<Mesa>();
+            repositorioMesa = new RepositorioMesa();
             telaMesa = new TelaMesa(repositorioMesa);
 
-            repositorioGarcom = new RepositorioGarcom<Garcom>();
+            repositorioGarcom = new RepositorioGarcom();
             telaGarcom = new TelaGarcom(repositorioGarcom);
 
-            repositorioProduto = new RepositorioProduto<Produto>();
+            repositorioProduto = new RepositorioProduto();
             telaProduto = new TelaProduto(repositorioProduto);
 
-            repositorioConta = new RepositorioConta<Conta>();
+            repositorioConta = new RepositorioConta();
             telaConta = new TelaConta(repositorioConta);
             telaConta.repositorioMesa = repositorioMesa;
             telaConta.repositorioGarcom = repositorioGarcom;

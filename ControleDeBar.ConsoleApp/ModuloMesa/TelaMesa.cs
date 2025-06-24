@@ -4,19 +4,20 @@ namespace ControleDeBar.ConsoleApp.ModuloMesa
 {
     public class TelaMesa : TelaBase<Mesa>, ITela
     {
-        RepositorioMesa<Mesa> repositorioMesa;
-        private int numeroMesa = 0;
-        private bool numeroMesaValido = false;
-        private int qtdLugares = 0;
-        private bool qtdLugaresValido = false;
+        RepositorioMesa repositorioMesa;
 
-        public TelaMesa(RepositorioMesa<Mesa> repositorioMesa) : base("Mesa", repositorioMesa)
+        public TelaMesa(RepositorioMesa repositorioMesa) : base("Mesa", repositorioMesa)
         {
             this.repositorioMesa = repositorioMesa;
         }
 
         public override Mesa ObterDados()
         {
+            int numeroMesa = 0;
+            bool numeroMesaValido = false;
+            int qtdLugares = 0;
+            bool qtdLugaresValido = false;
+
             while (!numeroMesaValido || !qtdLugaresValido)
             {
                 Console.Write("Digite o número da mesa: ");
@@ -39,7 +40,7 @@ namespace ControleDeBar.ConsoleApp.ModuloMesa
         {
             base.Visualizar();
 
-            Console.WriteLine("{0,-5} | {1,-7} | {2,-10} | {3, -10}", 
+            Console.WriteLine("{0,-5} | {1,-7} | {2,-10} | {3, -10}",
                 "ID", "Número", "Capacidade", "Status");
             foreach (Mesa mesa in repositorioMesa.listaRegistros)
             {

@@ -7,13 +7,13 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
 {
     public class TelaConta : TelaBase<Conta>, ITela
     {
-        public RepositorioConta<Conta> repositorioConta;
-        public RepositorioMesa<Mesa> repositorioMesa;
-        public RepositorioGarcom<Garcom> repositorioGarcom;
-        public RepositorioProduto<Produto> repositorioProduto;
+        public RepositorioConta repositorioConta;
+        public RepositorioMesa repositorioMesa;
+        public RepositorioGarcom repositorioGarcom;
+        public RepositorioProduto repositorioProduto;
         public TelaProduto telaProduto;
 
-        public TelaConta(RepositorioConta<Conta> repositorioConta) : base("Conta", repositorioConta)
+        public TelaConta(RepositorioConta repositorioConta) : base("Conta", repositorioConta)
         {
             this.repositorioConta = repositorioConta;
         }

@@ -4,9 +4,9 @@ namespace ControleDeBar.ConsoleApp.ModuloProduto
 {
     public class TelaProduto : TelaBase<Produto>, ITela
     {
-        public RepositorioProduto<Produto> repositorioProduto;
+        public RepositorioProduto repositorioProduto;
 
-        public TelaProduto(RepositorioProduto<Produto> repositorioProduto) : base("Produto", repositorioProduto)
+        public TelaProduto(RepositorioProduto repositorioProduto) : base("Produto", repositorioProduto)
         {
             this.repositorioProduto = repositorioProduto;
         }

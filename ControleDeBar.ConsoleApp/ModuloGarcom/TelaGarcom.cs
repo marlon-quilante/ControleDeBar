@@ -4,9 +4,9 @@ namespace ControleDeBar.ConsoleApp.ModuloGarcom
 {
     public class TelaGarcom : TelaBase<Garcom>, ITela
     {
-        public RepositorioGarcom<Garcom> repositorioGarcom;
+        public RepositorioGarcom repositorioGarcom;
 
-        public TelaGarcom(RepositorioGarcom<Garcom> repositorioGarcom) : base ("Garçom", repositorioGarcom)
+        public TelaGarcom(RepositorioGarcom repositorioGarcom) : base ("Garçom", repositorioGarcom)
         {
             this.repositorioGarcom = repositorioGarcom;
         }

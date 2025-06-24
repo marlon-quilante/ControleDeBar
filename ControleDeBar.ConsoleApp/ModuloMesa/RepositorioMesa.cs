@@ -2,7 +2,7 @@
 
 namespace ControleDeBar.ConsoleApp.ModuloMesa
 {
-    public class RepositorioMesa<T> : RepositorioBase<Mesa>
+    public class RepositorioMesa : RepositorioBase<Mesa>
     {
         public override bool RegistroDuplicado(Mesa mesa)
         {

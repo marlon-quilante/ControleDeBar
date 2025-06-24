@@ -2,7 +2,7 @@
 
 namespace ControleDeBar.ConsoleApp.ModuloProduto
 {
-    public class RepositorioProduto<T> : RepositorioBase<Produto>
+    public class RepositorioProduto : RepositorioBase<Produto>
     {
         public override bool RegistroDuplicado(Produto produto)
         {

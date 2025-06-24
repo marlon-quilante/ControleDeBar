@@ -2,7 +2,7 @@
 
 namespace ControleDeBar.ConsoleApp.ModuloGarcom
 {
-    public class RepositorioGarcom<T> : RepositorioBase<Garcom>
+    public class RepositorioGarcom : RepositorioBase<Garcom>
     {
         public override bool RegistroDuplicado(Garcom garcom)
         {
