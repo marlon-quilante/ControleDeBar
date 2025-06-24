@@ -27,7 +27,7 @@ namespace ControleDeBar.ConsoleApp.ModuloMesa
                 if (!numeroMesaValido || !qtdLugaresValido)
                 {
                     Console.WriteLine();
-                    ApresentarMensagem("Dados inválidos! Pressione ENTER para tentar novamente...", ConsoleColor.Yellow);
+                    ApresentarMensagem("Dados inválidos! Pressione ENTER para tentar novamente...", ConsoleColor.Red);
                 }
             }
             numeroMesaValido = false;

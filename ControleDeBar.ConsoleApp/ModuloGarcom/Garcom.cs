@@ -6,11 +6,19 @@ namespace ControleDeBar.ConsoleApp.ModuloGarcom
     {
         public string Nome { get; set; }
         public string CPF { get;  set; }
+        public bool TemPedido { get; set; }
 
         public Garcom(string nome, string cpf)
         {
             Nome = nome;
             CPF = cpf;
+        }
+
+        public override bool TemRestricaoDeExclusao()
+        {
+            if (TemPedido)
+                return true;
+            return false;
         }
 
         public override string ValidacaoDeDados()

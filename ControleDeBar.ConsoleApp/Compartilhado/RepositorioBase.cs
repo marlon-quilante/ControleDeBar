@@ -5,7 +5,7 @@
         public List<T> listaRegistros = new List<T>();
         public int ContadorId { get; private set; } = 1;
 
-        public void Cadastrar(T registro)
+        public virtual void Cadastrar(T registro)
         {
             if (registro != null)
             {

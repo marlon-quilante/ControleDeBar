@@ -4,6 +4,8 @@
     {
         public int Id { get; set; }
 
+        public abstract bool TemRestricaoDeExclusao();
+
         public abstract string ValidacaoDeDados();
     }
 }

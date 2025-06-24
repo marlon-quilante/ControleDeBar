@@ -25,5 +25,15 @@ namespace ControleDeBar.ConsoleApp.ModuloMesa
                 mesaAtual.QtdLugares = mesaAtualizada.QtdLugares;
             }
         }
+
+        public Mesa BuscarMesaPorNumero(int numeroMesa)
+        {
+            foreach (Mesa mesa in listaRegistros)
+            {
+                if (mesa.Numero == numeroMesa)
+                    return mesa;
+            }
+            return null;
+        }
     }
 }

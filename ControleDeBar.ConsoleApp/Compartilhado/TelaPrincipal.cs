@@ -1,4 +1,5 @@
-﻿using ControleDeBar.ConsoleApp.ModuloGarcom;
+﻿using ControleDeBar.ConsoleApp.ModuloConta;
+using ControleDeBar.ConsoleApp.ModuloGarcom;
 using ControleDeBar.ConsoleApp.ModuloMesa;
 using ControleDeBar.ConsoleApp.ModuloProduto;
 
@@ -18,6 +19,9 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
         public RepositorioProduto<Produto> repositorioProduto;
         public TelaProduto telaProduto;
 
+        public RepositorioConta<Conta> repositorioConta;
+        public TelaConta telaConta;
+
         public TelaPrincipal()
         {
             repositorioMesa = new RepositorioMesa<Mesa>();
@@ -28,6 +32,13 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
 
             repositorioProduto = new RepositorioProduto<Produto>();
             telaProduto = new TelaProduto(repositorioProduto);
+
+            repositorioConta = new RepositorioConta<Conta>();
+            telaConta = new TelaConta(repositorioConta);
+            telaConta.repositorioMesa = repositorioMesa;
+            telaConta.repositorioGarcom = repositorioGarcom;
+            telaConta.repositorioProduto = repositorioProduto;
+            telaConta.telaProduto = telaProduto;
         }
 
         public void EscolherOpcaoMenuPrincipal()
@@ -40,6 +51,7 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
             Console.WriteLine("1- Controle de Mesas");
             Console.WriteLine("2- Controle de Garçons");
             Console.WriteLine("3- Controle de Produtos");
+            Console.WriteLine("4- Controle de Contas");
             Console.WriteLine("S- Sair");
             Console.WriteLine();
 
@@ -55,6 +67,8 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
                 return telaGarcom;
             if (opcaoEscolhida == "3")
                 return telaProduto;
+            if (opcaoEscolhida == "4")
+                return telaConta;
             if (opcaoEscolhida == "S".ToLower())
             {
                 fecharSistema = true;

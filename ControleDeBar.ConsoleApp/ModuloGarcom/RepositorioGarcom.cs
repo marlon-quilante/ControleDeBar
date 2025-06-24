@@ -25,5 +25,15 @@ namespace ControleDeBar.ConsoleApp.ModuloGarcom
                 garcomAtual.CPF = garcomAtualizado.CPF;
             }
         }
+        
+        public Garcom BuscarGarcomPorNome(string nomeGarcom)
+        {
+            foreach (Garcom garcom in listaRegistros)
+            {
+                if (garcom.Nome == nomeGarcom)
+                    return garcom;
+            }
+            return null;
+        }
     }
 }

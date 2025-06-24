@@ -41,11 +41,11 @@
         public void Cadastrar()
         {
             Console.Clear();
-            Console.WriteLine("---------------------");
-            Console.WriteLine($"Cadastrar {entidade}");
-            Console.WriteLine("---------------------\n");
+            Console.WriteLine("----------------------");
+            Console.WriteLine($"{entidade} - Cadastro");
+            Console.WriteLine("----------------------\n");
             T registro = ObterDados();
-            
+
             string erros = registro.ValidacaoDeDados();
 
             if (erros != string.Empty)
@@ -61,16 +61,13 @@
             {
                 Console.WriteLine();
                 ApresentarMensagem("Já existe um cadastro com esses dados!", ConsoleColor.Red);
-                Console.Clear();
                 Cadastrar();
                 return;
             }
-            else
-            {
-                repositorioBase.Cadastrar(registro);
-                Console.WriteLine();
-                ApresentarMensagem("Cadastro realizado com sucesso!", ConsoleColor.Green);
-            }
+
+            repositorioBase.Cadastrar(registro);
+            Console.WriteLine();
+            ApresentarMensagem("Cadastro realizado com sucesso!", ConsoleColor.Green);
         }
 
         public virtual void Visualizar()
@@ -84,11 +81,12 @@
         public void Editar()
         {
             Console.Clear();
-            Console.WriteLine("---------------------");
-            Console.WriteLine($"Editar {entidade}");
-            Console.WriteLine("---------------------\n");
+            Console.WriteLine("--------------------");
+            Console.WriteLine($"{entidade} - Edição");
+            Console.WriteLine("--------------------\n");
 
             Console.WriteLine("Digite o ID do registro que deseja editar...\n");
+            Console.WriteLine();
             int idRegistro = ObterID();
             T registroAtual = repositorioBase.BuscarRegistroPorID(idRegistro);
 
@@ -99,8 +97,7 @@
             if (repositorioBase.RegistroDuplicado(registroAtualizado))
             {
                 Console.WriteLine();
-                ApresentarMensagem("Este registro já existe!", ConsoleColor.Red);
-                Console.Clear();
+                ApresentarMensagem("Já existe um cadastro com esses dados!", ConsoleColor.Red);
                 Editar();
                 return;
             }
@@ -115,13 +112,21 @@
         public void Excluir()
         {
             Console.Clear();
-            Console.WriteLine("---------------------");
-            Console.WriteLine($"Excluir {entidade}");
-            Console.WriteLine("---------------------\n");
+            Console.WriteLine("----------------------");
+            Console.WriteLine($"{entidade} - Exclusão");
+            Console.WriteLine("----------------------\n");
 
             Console.WriteLine("Digite o ID do registro que deseja excluir...\n");
             int idRegistro = ObterID();
             T entidadeBase = repositorioBase.BuscarRegistroPorID(idRegistro);
+
+            if (entidadeBase.TemRestricaoDeExclusao())
+            {
+                Console.WriteLine();
+                ApresentarMensagem("Não é possível excluir pois esse registro possui alguma restrição! Pressione ENTER para voltar...", ConsoleColor.Red);
+                return;
+            }
+
             repositorioBase.Excluir(entidadeBase);
             Console.WriteLine();
             ApresentarMensagem("Exclusão realizada com sucesso!", ConsoleColor.Green);
