@@ -10,8 +10,6 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             base.Cadastrar(conta);
 
             CalcularValor(conta);
-            MarcarProdutosComPedido(conta);
-
             conta._mesa.Ocupar();
             conta._mesa.TemPedido = true;
             conta._garcom.TemPedido = true;
@@ -26,20 +24,6 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
                     produto.ValorDoPedido = produto.Preco * produto.QtdDoPedido;
                 }
             }
-        }
-
-        public void MarcarProdutosComPedido(Conta conta)
-        {
-            foreach (Produto produto in conta.Pedido)
-            {
-                produto.TemPedido = true;
-            }
-        }
-
-        public void FecharConta(Conta conta)
-        {
-            conta.Status = "Fechada";
-            conta._mesa.Desocupar();
         }
 
         public bool ProdutoExisteNoPedido(Produto produto, Conta conta)

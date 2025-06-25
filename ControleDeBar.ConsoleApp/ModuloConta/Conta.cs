@@ -22,6 +22,12 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             Pedido = pedido;
         }
 
+        public void FecharConta()
+        {
+            Status = "Fechada";
+            _mesa.Desocupar();
+        }
+
         public override bool TemRestricaoDeExclusao()
         {
             throw new NotImplementedException();
@@ -30,6 +36,9 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
         public override string ValidacaoDeDados()
         {
             string erros = string.Empty;
+
+            if (NomeCliente.Length < 3 && NomeCliente.Length > 100)
+                erros += "O nome do cliente precisa conter entre 3 e 100 caracteres!\n";
 
             return erros;
         }

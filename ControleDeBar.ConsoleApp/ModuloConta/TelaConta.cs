@@ -58,7 +58,9 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
                 ApresentarMensagem("Essa conta já está fechada! Pressione ENTER para voltar...", ConsoleColor.Red);
                 return;
             }
-            repositorioConta.FecharConta(conta);
+            conta.FecharConta();
+            Console.WriteLine();
+            ApresentarMensagem("Conta fechada com sucesso!", ConsoleColor.Green);
         }
 
         public override void Visualizar()
@@ -79,9 +81,9 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
         public void VisualizarPedido()
         {
             Console.Clear();
-            Console.WriteLine("---------------------");
+            Console.WriteLine("-------------------------");
             Console.WriteLine("Conta - Visualizar Pedido");
-            Console.WriteLine("---------------------\n");
+            Console.WriteLine("-------------------------\n");
 
             Console.WriteLine("Digite o ID da conta para visualizar...");
             Console.WriteLine();
@@ -121,43 +123,24 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
 
         public override Conta ObterDados()
         {
-            int numeroMesa = 0;
-            bool numeroMesaValido = false;
-            Mesa mesa = null;
-            Garcom garcom = null;
             List<Produto> pedido = new List<Produto>();
 
             Console.Write("Digite o nome do cliente: ");
             string nomeCliente = Console.ReadLine();
+            Console.WriteLine();
+            Mesa mesa = ObterDadosMesa();
+            Console.WriteLine();
+            Garcom garcom = ObterDadosGarcom();
+            Console.WriteLine();
 
-            while (!numeroMesaValido || mesa == null || mesa.Status != "Livre")
-            {
-                Console.Write("Digite o número da mesa: ");
-                numeroMesaValido = int.TryParse(Console.ReadLine(), out numeroMesa);
+            pedido = ObterDadosPedido();
 
-                if (!numeroMesaValido)
-                {
-                    Console.WriteLine();
-                    ApresentarMensagem("Número da mesa inválido! Pressione ENTER para tentar novamente...", ConsoleColor.Red);
-                    continue;
-                }
+            return new Conta(nomeCliente, mesa, garcom, pedido);
+        }
 
-                mesa = repositorioMesa.BuscarMesaPorNumero(numeroMesa);
-
-                if (mesa == null)
-                {
-                    Console.WriteLine();
-                    ApresentarMensagem("Não existe mesa cadastrada com esse número! Pressione ENTER para tentar novamente...", ConsoleColor.Red);
-                    continue;
-                }
-
-                if (mesa.Status != "Livre")
-                {
-                    Console.WriteLine();
-                    ApresentarMensagem("Essa mesa não está livre no momento! Pressione ENTER para tentar novamente...", ConsoleColor.Red);
-                    continue;
-                }
-            }
+        private Garcom ObterDadosGarcom()
+        {
+            Garcom garcom = null;
 
             while (garcom == null)
             {
@@ -173,14 +156,47 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
                     continue;
                 }
             }
-
-            Console.WriteLine();
-            pedido = ObterDadosPedido();
-
-            return new Conta(nomeCliente, mesa, garcom, pedido);
+            return garcom;
         }
 
-        public List<Produto> ObterDadosPedido()
+        private Mesa ObterDadosMesa()
+        {
+            Mesa mesa = null;
+            int numeroMesa = 0;
+            bool numeroMesaValido = false;
+
+            while (!numeroMesaValido || mesa == null || mesa.Status != "Livre")
+            {
+                Console.Write("Digite o número da mesa: ");
+                numeroMesaValido = int.TryParse(Console.ReadLine(), out numeroMesa);
+
+                if (!numeroMesaValido)
+                {
+                    Console.WriteLine();
+                    ApresentarMensagem("Número da mesa inválido! Pressione ENTER para tentar novamente...", ConsoleColor.Red);
+                    continue;
+                }
+                else
+                    mesa = repositorioMesa.BuscarMesaPorNumero(numeroMesa);
+
+                if (mesa == null)
+                {
+                    Console.WriteLine();
+                    ApresentarMensagem("Não existe mesa cadastrada com esse número! Pressione ENTER para tentar novamente...", ConsoleColor.Red);
+                    continue;
+                }
+
+                if (mesa.Status != "Livre")
+                {
+                    Console.WriteLine();
+                    ApresentarMensagem("Essa mesa não está livre no momento! Pressione ENTER para tentar novamente...", ConsoleColor.Red);
+                    continue;
+                }
+            }
+            return mesa;
+        }
+
+        private List<Produto> ObterDadosPedido()
         {
             List<Produto> ListaProdutos = new List<Produto>();
             decimal quantidade = 0;
@@ -207,6 +223,7 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             Produto produto = repositorioProduto.BuscarRegistroPorID(idProduto);
             produto.QtdDoPedido = quantidade;
 
+            produto.MarcarPedido();
             ListaProdutos.Add(produto);
 
             return ListaProdutos;
@@ -231,7 +248,11 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             Produto produto = repositorioProduto.BuscarRegistroPorID(idProduto);
 
             if (repositorioConta.ProdutoExisteNoPedido(produto, conta))
+            {
                 conta.Pedido.Remove(produto);
+                ApresentarMensagem("Produto removido com sucesso!", ConsoleColor.Green);
+                produto.DesmarcarPedido();
+            }
             else
             {
                 Console.WriteLine();
@@ -262,34 +283,34 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             int idProduto = telaProduto.ObterID();
             Produto produto = repositorioProduto.BuscarRegistroPorID(idProduto);
 
-            Console.Write("Quantidade: ");
-            while (!quantidadeValida)
-            {
-                quantidadeValida = decimal.TryParse(Console.ReadLine(), out quantidade);
-
-                if (!quantidadeValida)
-                {
-                    Console.WriteLine();
-                    ApresentarMensagem("Quantidade inválida! Pressione ENTER para tentar novamente...", ConsoleColor.Red);
-                    Console.WriteLine();
-                    continue;
-                }
-            }
-
-            produto.QtdDoPedido = quantidade;
-
-            if (!repositorioConta.ProdutoExisteNoPedido(produto, conta))
-            {
-                conta.Pedido.Add(produto);
-                repositorioConta.CalcularValor(conta);
-                repositorioConta.MarcarProdutosComPedido(conta);
-            }
-            else
+            if (repositorioConta.ProdutoExisteNoPedido(produto, conta))
             {
                 Console.WriteLine();
                 ApresentarMensagem("Este produto já está no pedido informado! Pressione ENTER para tentar novamente...", ConsoleColor.Red);
                 AdicionarProdutoNoPedido();
                 return;
+            }
+            else
+            {
+                Console.Write("Quantidade: ");
+                while (!quantidadeValida)
+                {
+                    quantidadeValida = decimal.TryParse(Console.ReadLine(), out quantidade);
+
+                    if (!quantidadeValida)
+                    {
+                        Console.WriteLine();
+                        ApresentarMensagem("Quantidade inválida! Pressione ENTER para tentar novamente...", ConsoleColor.Red);
+                        Console.WriteLine();
+                        continue;
+                    }
+                }
+
+                produto.QtdDoPedido = quantidade;
+                conta.Pedido.Add(produto);
+                ApresentarMensagem("Produto adicionado com sucesso!", ConsoleColor.Green);
+                repositorioConta.CalcularValor(conta);
+                produto.MarcarPedido();
             }
         }
     }

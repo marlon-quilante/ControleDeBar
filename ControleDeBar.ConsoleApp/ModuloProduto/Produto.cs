@@ -1,4 +1,5 @@
 ﻿using ControleDeBar.ConsoleApp.Compartilhado;
+using ControleDeBar.ConsoleApp.ModuloConta;
 
 namespace ControleDeBar.ConsoleApp.ModuloProduto
 {
@@ -14,6 +15,16 @@ namespace ControleDeBar.ConsoleApp.ModuloProduto
         {
             Nome = nome;
             Preco = preco;
+        }
+
+        public void MarcarPedido()
+        {
+            TemPedido = true;
+        }
+
+        public void DesmarcarPedido()
+        {
+            TemPedido = false;
         }
 
         public override bool TemRestricaoDeExclusao()

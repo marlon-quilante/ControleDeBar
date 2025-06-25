@@ -148,7 +148,7 @@
                 if (!idValido)
                 {
                     Console.WriteLine();
-                    ApresentarMensagem("ID inválido! Pressione ENTER para tentar novamente...", ConsoleColor.Yellow);
+                    ApresentarMensagem("ID inválido! Pressione ENTER para tentar novamente...", ConsoleColor.Red);
                     continue;
                 }
 
@@ -157,7 +157,7 @@
                 if (!idExiste)
                 {
                     Console.WriteLine();
-                    ApresentarMensagem("Este ID não está cadastrado! Pressione ENTER para tentar novamente...", ConsoleColor.Yellow);
+                    ApresentarMensagem("Este ID não está cadastrado! Pressione ENTER para tentar novamente...", ConsoleColor.Red);
                     continue;
                 }
             }
