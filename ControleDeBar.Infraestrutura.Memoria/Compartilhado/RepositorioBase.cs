@@ -1,4 +1,4 @@
-﻿namespace ControleDeBar.ConsoleApp.Compartilhado
+﻿namespace ControleDeBar.Dominio.Compartilhado
 {
     public abstract class RepositorioBase<T> where T : EntidadeBase<T>
     {

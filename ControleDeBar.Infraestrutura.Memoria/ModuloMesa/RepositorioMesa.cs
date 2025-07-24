@@ -1,6 +1,7 @@
-﻿using ControleDeBar.ConsoleApp.Compartilhado;
+﻿using ControleDeBar.Dominio.Compartilhado;
+using ControleDeBar.Dominio.ModuloMesa;
 
-namespace ControleDeBar.ConsoleApp.ModuloMesa
+namespace ControleDeBar.Infraestrutura.Memoria.ModuloMesa
 {
     public class RepositorioMesa : RepositorioBase<Mesa>
     {

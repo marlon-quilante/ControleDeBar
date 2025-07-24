@@ -1,7 +1,8 @@
-﻿using ControleDeBar.ConsoleApp.Compartilhado;
-using ControleDeBar.ConsoleApp.ModuloProduto;
+﻿using ControleDeBar.Dominio.ModuloConta;
+using ControleDeBar.Dominio.Compartilhado;
+using ControleDeBar.Dominio.ModuloProduto;
 
-namespace ControleDeBar.ConsoleApp.ModuloConta
+namespace ControleDeBar.Infraestrutura.Memoria.ModuloConta
 {
     public class RepositorioConta : RepositorioBase<Conta>
     {
