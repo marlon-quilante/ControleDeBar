@@ -32,7 +32,7 @@ namespace ControleDeBar.Infraestrutura.Arquivos.Compartilhado
             jsonOptions.WriteIndented = true;
             jsonOptions.ReferenceHandler = ReferenceHandler.Preserve;
 
-            var jsonString = JsonSerializer.Serialize(this);
+            var jsonString = JsonSerializer.Serialize(this, jsonOptions);
 
             if (!Directory.Exists(pastaArmazenamento))
                 Directory.CreateDirectory(pastaArmazenamento);

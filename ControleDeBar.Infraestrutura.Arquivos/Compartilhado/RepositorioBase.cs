@@ -1,6 +1,6 @@
-﻿using ControleDeBar.Infraestrutura.Arquivos.Compartilhado;
+﻿using ControleDeBar.Dominio.Compartilhado;
 
-namespace ControleDeBar.Dominio.Compartilhado
+namespace ControleDeBar.Infraestrutura.Arquivos.Compartilhado
 {
     public abstract class RepositorioBaseEmArquivo<T> where T : EntidadeBase<T>
     {
@@ -11,7 +11,11 @@ namespace ControleDeBar.Dominio.Compartilhado
         protected RepositorioBaseEmArquivo(ContextoDados contextoDados)
         {
             this.contextoDados = contextoDados;
+
+            listaRegistros = BuscarRegistros();
         }
+
+        protected abstract List<T> BuscarRegistros();
 
         public virtual void Cadastrar(T registro)
         {
