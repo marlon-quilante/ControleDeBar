@@ -2,26 +2,50 @@
     Layout = "_Layout";
     ViewBag.Titulo = "Cadastro de Mesa";
 }
-
 <html>
-    <body>
-        <main class="container my-4">
-            <form class="col-4" action="/Mesa/Cadastrar" method="post">
-                <div class="mb-3">
-                    <label class="form-label">Número:</label>
-                    <input name="Numero" type="number" class="form-control" placeholder="Digite o número da mesa...">
+<body>
+    <main class="container my-4">
+        <form class="col-4 needs-validation" action="/Mesa/Cadastrar" method="post" novalidate>
+            <div class="mb-3">
+                <label for="Numero" class="form-label">Número:</label>
+                <input name="Numero" id="Numero" type="number" class="form-control" placeholder="Digite o número da mesa..." required>
+                <div class="invalid-feedback">
+                    Informe o número da mesa!
                 </div>
+            </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Quantidade de Lugares:</label>
-                    <input name="QtdLugares" type="number" class="form-control" placeholder="Digite a quantidade de lugares...">
+            <div class="mb-3">
+                <label for="QtdLugares" class="form-label">Quantidade de Lugares:</label>
+                <input name="QtdLugares" id="QtdLugares" type="number" class="form-control" placeholder="Digite a quantidade de lugares..." required>
+                <div class="invalid-feedback">
+                    Informe a quantidade de lugares!
                 </div>
+            </div>
 
-                <div class="d-flex justify-content-end">
-                    <a class="btn btn-secondary px-4 me-1" href="/Mesa">Voltar</a>
-                    <button class="btn btn-success px-4" type="submit">Salvar</button>
-                </div>
-            </form>
-        </main>
-    </body>
+            <div class="d-flex justify-content-end">
+                <a class="btn btn-secondary px-4 me-1" href="/Mesa">Voltar</a>
+                <button class="btn btn-success px-4" type="submit">Salvar</button>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        (() => {
+            'use strict'
+
+            const forms = document.querySelectorAll('.needs-validation')
+
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()){
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+</body>
 </html>
