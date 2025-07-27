@@ -1,0 +1,35 @@
+﻿@using ControleDeBar.WebApp.Models
+
+@model VisualizarMesasViewModel
+
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Mesas";
+}
+
+<html>
+    <body>
+        <div>
+            <a class="btn btn-primary mb-3" href="/Mesa/Cadastrar">
+                Cadastrar
+            </a>
+        </div>
+
+        <main>
+            <div class="row g-2">
+            @foreach (DetalhesMesaViewModel m in Model.Registros)
+            {
+                <div class="col-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Mesa Nº @m.Numero</h5>
+                            <p class="card-text mb-0"><strong>Qtd. de Lugares: </strong>@m.QtdLugares</p>
+                            <p class="card-text mb-0"><strong>Status: </strong>@m.Status</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        </main>
+    </body>
+</html>

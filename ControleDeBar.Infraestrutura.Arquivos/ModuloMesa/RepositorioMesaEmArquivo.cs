@@ -9,7 +9,7 @@ namespace ControleDeBar.Infraestrutura.Arquivos.ModuloMesa
         {
         }
 
-        protected override List<Mesa> BuscarRegistros()
+        public override List<Mesa> BuscarRegistros()
         {
             return contextoDados.Mesas;
         }

@@ -46,11 +46,14 @@ namespace ControleDeBar.Infraestrutura.Arquivos.Compartilhado
 
             if (!File.Exists(caminhoCompleto)) return;
 
-            string jsonString = File.ReadAllText(caminhoCompleto);
+            string conteudoJson = File.ReadAllText(caminhoCompleto);
 
-            if (string.IsNullOrWhiteSpace(jsonString)) return;
+            if (string.IsNullOrWhiteSpace(conteudoJson)) return;
 
-            ContextoDados? contextoArmazenado = JsonSerializer.Deserialize<ContextoDados>(jsonString);
+            JsonSerializerOptions jsonOptions = new JsonSerializerOptions();
+            jsonOptions.ReferenceHandler = ReferenceHandler.Preserve;
+
+            ContextoDados? contextoArmazenado = JsonSerializer.Deserialize<ContextoDados>(conteudoJson, jsonOptions);
 
             if (contextoArmazenado == null) return;
 
