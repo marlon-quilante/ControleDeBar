@@ -12,7 +12,7 @@ namespace ControleDeBar.WebApp.Models
 
             foreach(Mesa m in mesas)
             {
-                DetalhesMesaViewModel detalhesVM = new DetalhesMesaViewModel(m.Numero, m.QtdLugares, m.Status);
+                DetalhesMesaViewModel detalhesVM = new DetalhesMesaViewModel(m.Id, m.Numero, m.QtdLugares, m.Status);
 
                 Registros.Add(detalhesVM);
             }
@@ -21,12 +21,14 @@ namespace ControleDeBar.WebApp.Models
 
     public class DetalhesMesaViewModel
     {
+        public int Id { get; set; }
         public int Numero { get; set; }
         public int QtdLugares { get; set; }
         public string Status { get; set; }
 
-        public DetalhesMesaViewModel(int numero, int qtdLugares, string status)
+        public DetalhesMesaViewModel(int id, int numero, int qtdLugares, string status)
         {
+            Id = id;
             Numero = numero;
             QtdLugares = qtdLugares;
             Status = status;
@@ -43,4 +45,19 @@ namespace ControleDeBar.WebApp.Models
         }
     }
 
+    public class EditarMesaViewModel
+    {
+        public int Id { get; set; }
+        public int Numero { get; set; }
+        public int QtdLugares { get; set; }
+
+        public EditarMesaViewModel() { }
+
+        public EditarMesaViewModel(int id, int numero, int qtdLugares)
+        {
+            Id = id;
+            Numero = numero;
+            QtdLugares = qtdLugares;
+        }
+    }
 }

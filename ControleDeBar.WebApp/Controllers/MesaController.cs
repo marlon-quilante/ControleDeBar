@@ -42,5 +42,26 @@ namespace ControleDeBar.WebApp.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        public IActionResult Editar(int id)
+        {
+            Mesa mesa = repositorioMesa.BuscarRegistroPorID(id);
+
+            EditarMesaViewModel editarVM = new EditarMesaViewModel(mesa.Id, mesa.Numero, mesa.QtdLugares);
+
+            return View(editarVM);
+        }
+
+        [HttpPost]
+        public IActionResult Editar(int id, EditarMesaViewModel editarVM)
+        {
+            id = editarVM.Id;
+            Mesa mesaAtual = repositorioMesa.BuscarRegistroPorID(id);
+            Mesa mesaAtualizada = new Mesa(editarVM.Numero, editarVM.QtdLugares);
+
+            repositorioMesa.Editar(mesaAtual, mesaAtualizada);
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

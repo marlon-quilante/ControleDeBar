@@ -14,14 +14,30 @@ namespace ControleDeBar.Infraestrutura.Arquivos.ModuloMesa
             return contextoDados.Mesas;
         }
 
-        public override void Cadastrar(Mesa registro)
+        public override int UltimoID()
         {
-            base.Cadastrar(registro);
+            int ultimoID = 0;
+            List<Mesa> mesas = BuscarRegistros();
+
+            foreach (Mesa m in mesas)
+                ultimoID = m.Id;
+
+            return ultimoID;
         }
 
-        public override void Editar(Mesa registroAtual, Mesa registroAtualizado)
+        public override void Cadastrar(Mesa mesa)
         {
-            throw new NotImplementedException();
+            base.Cadastrar(mesa);
+        }
+
+        public override void Editar(Mesa mesaAtual, Mesa mesaAtualizada)
+        {
+            if (mesaAtual != null && mesaAtualizada != null)
+            {
+                mesaAtual.Numero = mesaAtualizada.Numero;
+                mesaAtual.QtdLugares = mesaAtualizada.QtdLugares;
+            }
+            contextoDados.Salvar();
         }
 
         public override bool RegistroDuplicado(Mesa registro)

@@ -1,22 +1,26 @@
-﻿@{
+﻿@using ControleDeBar.WebApp.Models
+
+@model EditarMesaViewModel
+
+@{
     Layout = "_Layout";
-    ViewBag.Titulo = "Cadastro de Mesa";
+    ViewBag.Titulo = "Edição de Mesa";
 }
+
 <html>
 <body>
     <main>
-        <form class="col-4 needs-validation" action="/Mesa/Cadastrar" method="post" novalidate>
+        <form class="col-4 needs-validation" action="/Mesa/Editar/@Model.Id" method="post" novalidate>
             <div class="mb-3">
                 <label for="Numero" class="form-label">Número:</label>
-                <input name="Numero" id="Numero" type="number" class="form-control" placeholder="Digite o número da mesa..." required>
+                <input name="Numero" id="Numero" type="number" class="form-control" value="@Model.Numero" required>
                 <div class="invalid-feedback">
                     Informe o número da mesa!
                 </div>
             </div>
-
             <div class="mb-3">
                 <label for="QtdLugares" class="form-label">Quantidade de Lugares:</label>
-                <input name="QtdLugares" id="QtdLugares" type="number" class="form-control" placeholder="Digite a quantidade de lugares..." required>
+                <input name="QtdLugares" id="QtdLugares" type="number" class="form-control" value="@Model.QtdLugares" required>
                 <div class="invalid-feedback">
                     Informe a quantidade de lugares!
                 </div>
@@ -24,7 +28,7 @@
 
             <div class="d-flex justify-content-end">
                 <a class="btn btn-secondary px-4 me-1" href="/Mesa">Voltar</a>
-                <button class="btn btn-success px-4" type="submit">Salvar</button>
+                <button class="btn btn-success px-4 me-1" type="submit">Salvar</button>
             </div>
         </form>
     </main>

@@ -21,9 +21,8 @@ namespace ControleDeBar.Infraestrutura.Arquivos.Compartilhado
         {
             if (registro != null)
             {
-                registro.Id = ContadorId;
+                registro.Id = UltimoID() + 1;
                 listaRegistros.Add(registro);
-                ContadorId++;
             }
             contextoDados.Salvar();
         }
@@ -61,5 +60,7 @@ namespace ControleDeBar.Infraestrutura.Arquivos.Compartilhado
         }
 
         public abstract bool RegistroDuplicado(T registro);
+
+        public abstract int UltimoID();
     }
 }
