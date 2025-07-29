@@ -1,0 +1,19 @@
+﻿@using ControleDeBar.WebApp.Models
+@model ExcluirMesaViewModel
+
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Exclusão de Mesa";
+}
+
+<html>
+<body>
+    <main class="col-4">
+        <form action="/Mesa/ExcluirConfirmado/@Model.Id" method="post">
+            <p class="fw-bold">Deseja realmente excluir a mesa @Model.Numero?</p>
+            <a class="btn btn-secondary" href="/Mesa">Voltar</a>
+            <button class="btn btn-danger" type="submit">Excluir</button>
+        </form>
+    </main>
+</body>
+</html>

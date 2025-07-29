@@ -60,4 +60,18 @@ namespace ControleDeBar.WebApp.Models
             QtdLugares = qtdLugares;
         }
     }
+
+    public class ExcluirMesaViewModel 
+    {
+        public int Id { get; set; }
+        public int Numero { get; set; }
+
+        public ExcluirMesaViewModel() { }
+
+        public ExcluirMesaViewModel(int id, int numero)
+        {
+            Id = id;
+            Numero = numero;
+        }
+    }
 }

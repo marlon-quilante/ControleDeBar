@@ -16,7 +16,6 @@ namespace ControleDeBar.WebApp.Controllers
             repositorioMesa = new RepositorioMesaEmArquivo(contextoDados);
         }
 
-
         public IActionResult Index()
         {
             List<Mesa> mesas = repositorioMesa.BuscarRegistros();
@@ -60,6 +59,25 @@ namespace ControleDeBar.WebApp.Controllers
             Mesa mesaAtualizada = new Mesa(editarVM.Numero, editarVM.QtdLugares);
 
             repositorioMesa.Editar(mesaAtual, mesaAtualizada);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Excluir(int id)
+        {
+            Mesa mesa = repositorioMesa.BuscarRegistroPorID(id);
+
+            ExcluirMesaViewModel excluirVM = new ExcluirMesaViewModel(mesa.Id, mesa.Numero);
+
+            return View(excluirVM);
+        }
+
+        [HttpPost]
+        public IActionResult ExcluirConfirmado(int id)
+        {
+            Mesa mesa = repositorioMesa.BuscarRegistroPorID(id);
+
+            repositorioMesa.Excluir(mesa);
 
             return RedirectToAction(nameof(Index));
         }

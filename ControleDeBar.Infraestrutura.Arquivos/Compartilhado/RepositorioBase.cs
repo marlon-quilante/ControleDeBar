@@ -35,6 +35,7 @@ namespace ControleDeBar.Infraestrutura.Arquivos.Compartilhado
             {
                 listaRegistros.Remove(registro);
             }
+            contextoDados.Salvar();
         }
 
         public bool IDExiste(int id)
