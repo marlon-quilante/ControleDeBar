@@ -5,7 +5,7 @@ namespace ControleDeBar.Dominio.ModuloGarcom
     public class Garcom : EntidadeBase<Garcom>
     {
         public string Nome { get; set; }
-        public string CPF { get;  set; }
+        public string CPF { get; set; }
         public bool TemPedido { get; set; }
 
         public Garcom(string nome, string cpf)

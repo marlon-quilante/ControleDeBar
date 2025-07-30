@@ -40,7 +40,7 @@ namespace ControleDeBar.Infraestrutura.Arquivos.ModuloMesa
             contextoDados.Salvar();
         }
 
-        public override bool RegistroDuplicado(Mesa registro)
+        public override bool RegistroDuplicado(Mesa mesa)
         {
             throw new NotImplementedException();
         }
