@@ -1,4 +1,5 @@
 ﻿using ControleDeBar.Dominio.ModuloMesa;
+using System.ComponentModel.DataAnnotations;
 
 namespace ControleDeBar.WebApp.Models
 {
@@ -37,7 +38,10 @@ namespace ControleDeBar.WebApp.Models
 
     public class CadastrarMesaViewModel 
     {
+        [Range(1,1000, ErrorMessage = "O campo \"Número\" precisa conter um valor entre 1 e 1000!")]
         public int Numero { get; set; }
+
+        [Range(1, 1000, ErrorMessage = "O campo \"Quantidade de Lugares\" precisa conter um valor entre 1 e 100!")]
         public int QtdLugares { get; set; }
 
         public CadastrarMesaViewModel()

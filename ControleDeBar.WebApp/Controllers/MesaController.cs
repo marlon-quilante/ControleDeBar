@@ -8,7 +8,7 @@ namespace ControleDeBar.WebApp.Controllers
 {
     public class MesaController : Controller
     {
-        private RepositorioMesaEmArquivo repositorioMesa { get; set; }
+        private readonly RepositorioMesaEmArquivo repositorioMesa;
 
         public MesaController()
         {
@@ -35,6 +35,9 @@ namespace ControleDeBar.WebApp.Controllers
         [HttpPost]
         public IActionResult Cadastrar(CadastrarMesaViewModel cadastrarVM)
         {
+            if (!ModelState.IsValid)
+                return View(cadastrarVM);
+
             Mesa novaMesa = new Mesa(cadastrarVM.Numero, cadastrarVM.QtdLugares);
 
             repositorioMesa.Cadastrar(novaMesa);

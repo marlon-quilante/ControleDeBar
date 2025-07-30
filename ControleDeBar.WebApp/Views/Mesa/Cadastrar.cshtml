@@ -1,29 +1,33 @@
-﻿@{
-    Layout = "_Layout";
+﻿@model CadastrarMesaViewModel
+
+@{
     ViewBag.Titulo = "Cadastro de Mesa";
 }
+
 <html>
 <body>
     <main>
-        <form class="col-4 needs-validation" action="/Mesa/Cadastrar" method="post" novalidate>
+        <form class="col-4 needs-validation" asp-action="Cadastrar" method="post" novalidate>
             <div class="mb-3">
-                <label for="Numero" class="form-label">Número:</label>
+                <label asp-for="Numero" class="form-label">Número:</label>
                 <input name="Numero" id="Numero" type="number" class="form-control" placeholder="Digite o número da mesa..." required>
+                <span asp-validation-for="Numero" class="text-danger" "></span>
                 <div class="invalid-feedback">
                     Informe o número da mesa!
                 </div>
             </div>
 
             <div class="mb-3">
-                <label for="QtdLugares" class="form-label">Quantidade de Lugares:</label>
+                <label asp-for="QtdLugares" class="form-label">Quantidade de Lugares:</label>
                 <input name="QtdLugares" id="QtdLugares" type="number" class="form-control" placeholder="Digite a quantidade de lugares..." required>
+                <span asp-validation-for="QtdLugares" class="text-danger"></span>
                 <div class="invalid-feedback">
                     Informe a quantidade de lugares!
                 </div>
             </div>
 
             <div class="d-flex justify-content-end">
-                <a class="btn btn-secondary px-4 me-1" href="/Mesa">Voltar</a>
+                <a class="btn btn-secondary px-4 me-1" asp-action="Index">Voltar</a>
                 <button class="btn btn-success px-4" type="submit">Salvar</button>
             </div>
         </form>

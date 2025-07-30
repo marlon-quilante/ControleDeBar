@@ -1,22 +1,20 @@
-﻿@using ControleDeBar.WebApp.Models
-
-@model VisualizarMesasViewModel
+﻿@model VisualizarMesasViewModel
 
 @{
-    Layout = "_Layout";
     ViewBag.Titulo = "Mesas";
 }
 
 <html>
-    <body>
-        <div>
-            <a class="btn btn-primary mb-3" href="/Mesa/Cadastrar">
-                Cadastrar
-            </a>
-        </div>
+<body>
+    <div>
+        <a class="btn btn-primary mb-3" href="/Mesa/Cadastrar">
+            <i class="bi bi-plus"></i>
+            Cadastrar
+        </a>
+    </div>
 
-        <main>
-            <div class="row g-2">
+    <main>
+        <div class="row g-2">
             @foreach (DetalhesMesaViewModel m in Model.Registros)
             {
                 <div class="col-4">
@@ -27,14 +25,18 @@
                             <p class="card-text mb-0"><strong>Status: </strong>@m.Status</p>
 
                             <div class="d-flex justify-content-end">
-                                <a class="btn btn-primary me-2" href="/Mesa/Editar/@m.Id">Editar</a>
-                                <a class="btn btn-danger" href="/Mesa/Excluir/@m.Id">Excluir</a>
+                                <a class="btn btn-primary rounded-circle me-2 d-flex justify-content-center align-items-center" style="height: 35px; width: 35px" href="/Mesa/Editar/@m.Id">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a class="btn btn-danger rounded-circle d-flex justify-content-center align-items-center" style="height: 35px; width: 35px" href="/Mesa/Excluir/@m.Id">
+                                    <i class="bi bi-trash"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             }
         </div>
-        </main>
-    </body>
+    </main>
+</body>
 </html>
