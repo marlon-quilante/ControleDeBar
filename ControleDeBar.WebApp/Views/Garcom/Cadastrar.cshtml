@@ -1,31 +1,32 @@
-﻿@model EditarMesaViewModel
+﻿@model CadastrarGarcomViewModel
 
 @{
-    ViewBag.Titulo = "Edição de Mesa";
+    ViewBag.Titulo = "Cadastro de Garçom";
 }
 
 <html>
 <body>
     <main>
-        <form class="col-4 needs-validation" action="/Mesa/Editar/@Model.Id" method="post" novalidate>
+        <form class="col-4 needs-validation" asp-action="Cadastrar" method="post" novalidate>
             <div class="mb-3">
-                <label for="Numero" class="form-label">Número:</label>
-                <input name="Numero" id="Numero" type="number" class="form-control" value="@Model.Numero" required>
+                <label class="form-label" asp-for="Nome">Nome:</label>
+                <input class="form-control" asp-for="Nome" name="Nome" id="Nome" type="text" placeholder="Digite o nome do garçom..." required>
                 <div class="invalid-feedback">
-                    Informe o número da mesa!
+                    Informe o nome do garçom!
                 </div>
             </div>
+
             <div class="mb-3">
-                <label for="QtdLugares" class="form-label">Quantidade de Lugares:</label>
-                <input name="QtdLugares" id="QtdLugares" type="number" class="form-control" value="@Model.QtdLugares" required>
+                <label class="form-label" asp-for="CPF">CPF:</label>
+                <input class="form-control" asp-for="CPF" name="CPF" id="CPF" type="text" placeholder="Digite o CPF do garçom..." required>
                 <div class="invalid-feedback">
-                    Informe a quantidade de lugares!
+                    Informe o CPF do garçom!
                 </div>
             </div>
 
             <div class="d-flex justify-content-end">
                 <a class="btn btn-secondary px-4 me-1" asp-action="Index">Voltar</a>
-                <button class="btn btn-success px-4 me-1" type="submit">Salvar</button>
+                <button class="btn btn-success px-4" type="submit">Salvar</button>
             </div>
         </form>
     </main>

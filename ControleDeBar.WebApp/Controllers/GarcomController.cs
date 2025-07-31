@@ -24,5 +24,61 @@ namespace ControleDeBar.WebApp.Controllers
 
             return View(visualizarVM);
         }
+
+        public IActionResult Cadastrar()
+        {
+            CadastrarGarcomViewModel cadastrarVM = new CadastrarGarcomViewModel();
+
+            return View(cadastrarVM);
+        }
+
+        [HttpPost]
+        public IActionResult Cadastrar(CadastrarGarcomViewModel cadastrarVM)
+        {
+            Garcom novoGarcom = new Garcom(cadastrarVM.Nome, cadastrarVM.CPF);
+
+            repositorioGarcom.Cadastrar(novoGarcom);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Editar(int id)
+        {
+            Garcom garcom = repositorioGarcom.BuscarRegistroPorID(id);
+
+            EditarGarcomViewModel editarVM = new EditarGarcomViewModel(garcom.Id, garcom.Nome, garcom.CPF);
+
+            return View(editarVM);
+        }
+
+        [HttpPost]
+        public IActionResult Editar(int id, EditarGarcomViewModel editarVM)
+        {
+            Garcom garcomAtual = repositorioGarcom.BuscarRegistroPorID(id);
+            Garcom garcomAtualizado = new Garcom(editarVM.Nome, editarVM.CPF);
+
+            repositorioGarcom.Editar(garcomAtual, garcomAtualizado);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Excluir(int id)
+        {
+            Garcom garcom = repositorioGarcom.BuscarRegistroPorID(id);
+
+            ExcluirGarcomViewModel excluirVM = new ExcluirGarcomViewModel(garcom.Id, garcom.Nome);
+
+            return View(excluirVM);
+        }
+
+        [HttpPost]
+        public IActionResult ExcluirConfirmado(int id)
+        {
+            Garcom garcom = repositorioGarcom.BuscarRegistroPorID(id);
+
+            repositorioGarcom.Excluir(garcom);
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

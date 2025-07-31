@@ -57,7 +57,6 @@ namespace ControleDeBar.WebApp.Controllers
         [HttpPost]
         public IActionResult Editar(int id, EditarMesaViewModel editarVM)
         {
-            id = editarVM.Id;
             Mesa mesaAtual = repositorioMesa.BuscarRegistroPorID(id);
             Mesa mesaAtualizada = new Mesa(editarVM.Numero, editarVM.QtdLugares);
 

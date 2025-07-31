@@ -1,25 +1,25 @@
-﻿@model EditarMesaViewModel
+﻿@model EditarGarcomViewModel
 
 @{
-    ViewBag.Titulo = "Edição de Mesa";
+    ViewBag.Titulo = "Edição de Garçom";
 }
 
 <html>
 <body>
     <main>
-        <form class="col-4 needs-validation" action="/Mesa/Editar/@Model.Id" method="post" novalidate>
+        <form class="col-4 needs-validation" action="/Garcom/Editar/@Model.Id" method="post" novalidate>
             <div class="mb-3">
-                <label for="Numero" class="form-label">Número:</label>
-                <input name="Numero" id="Numero" type="number" class="form-control" value="@Model.Numero" required>
+                <label for="Nome" class="form-label">Nome:</label>
+                <input name="Nome" id="Nome" type="text" class="form-control" value="@Model.Nome" required>
                 <div class="invalid-feedback">
-                    Informe o número da mesa!
+                    Informe o nome do garçom!
                 </div>
             </div>
             <div class="mb-3">
-                <label for="QtdLugares" class="form-label">Quantidade de Lugares:</label>
-                <input name="QtdLugares" id="QtdLugares" type="number" class="form-control" value="@Model.QtdLugares" required>
+                <label for="CPF" class="form-label">CPF:</label>
+                <input name="CPF" id="CPF" type="text" class="form-control" value="@Model.CPF" required>
                 <div class="invalid-feedback">
-                    Informe a quantidade de lugares!
+                    Informe o CPF do garçom!
                 </div>
             </div>
 
