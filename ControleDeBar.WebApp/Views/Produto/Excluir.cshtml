@@ -1,5 +1,17 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model ExcluirProdutoViewModel
+
 @{
+    ViewBag.Titulo = "Exclusão de Produto";
 }
+
+<html>
+<body>
+    <main class="col-4">
+        <form action="/Produto/ExcluirConfirmado/@Model.Id" method="post">
+            <p class="fw-bold">Deseja realmente excluir o produto @Model.Nome?</p>
+            <a class="btn btn-secondary" asp-action="Index">Voltar</a>
+            <button class="btn btn-danger" type="submit">Excluir</button>
+        </form>
+    </main>
+</body>
+</html>
