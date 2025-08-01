@@ -35,6 +35,9 @@ namespace ControleDeBar.WebApp.Controllers
         [HttpPost]
         public IActionResult Cadastrar(CadastrarProdutoViewModel cadastrarVM)
         {
+            if (!ModelState.IsValid)
+                return View(cadastrarVM);
+
             Produto novoProduto = new Produto(cadastrarVM.Nome, cadastrarVM.Preco);
 
             repositorioProduto.Cadastrar(novoProduto);
@@ -54,6 +57,9 @@ namespace ControleDeBar.WebApp.Controllers
         [HttpPost]
         public IActionResult Editar(int id, EditarProdutoViewModel editarVM)
         {
+            if (!ModelState.IsValid)
+                return View(editarVM);
+
             Produto produtoAtual = repositorioProduto.BuscarRegistroPorID(id);
             Produto produtoAtualizado = new Produto(editarVM.Nome, editarVM.Preco);
 

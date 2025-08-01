@@ -11,6 +11,7 @@
             <div class="mb-3">
                 <label class="form-label" asp-for="Nome">Nome:</label>
                 <input class="form-control" asp-for="Nome" name="Nome" id="Nome" type="text" placeholder="Digite o nome do produto..." required>
+                <span asp-validation-for="Nome" class="text-danger"></span>
                 <div class="invalid-feedback">
                     Informe o nome do produto!
                 </div>

@@ -1,4 +1,5 @@
 ﻿using ControleDeBar.Dominio.ModuloGarcom;
+using System.ComponentModel.DataAnnotations;
 
 namespace ControleDeBar.WebApp.Models
 {
@@ -40,7 +41,10 @@ namespace ControleDeBar.WebApp.Models
 
     public class CadastrarGarcomViewModel 
     {
+        [MinLength(2, ErrorMessage = "O nome do garçom deve haver no mínimo 2 caracteres")]
         public string Nome { get; set; }
+
+        [RegularExpression(@"^\d{3}\.\d{3}\.\d{3}-\d{2}$", ErrorMessage = "O CPF deve estar no formato xxx.xxx.xxx-xx")]
         public string CPF { get; set; }
 
         public CadastrarGarcomViewModel() { }
@@ -55,7 +59,11 @@ namespace ControleDeBar.WebApp.Models
     public class EditarGarcomViewModel
     {
         public int Id { get; set; }
+
+        [MinLength(2, ErrorMessage = "O nome do garçom deve haver no mínimo 2 caracteres")]
         public string Nome { get; set; }
+
+        [RegularExpression(@"^\d{3}\.\d{3}\.\d{3}-\d{2}$", ErrorMessage = "O CPF deve estar no formato xxx.xxx.xxx-xx")]
         public string CPF { get; set; }
 
         public EditarGarcomViewModel() { }

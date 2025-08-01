@@ -7,10 +7,11 @@
 <html>
 <body>
     <main>
-        <form class="col-4 needs-validation" asp-action="Cadastrar" method="post" novalidate>
+        <form class="col-4 needs-validation" asp-action="Editar" method="post" novalidate>
             <div class="mb-3">
                 <label class="form-label" asp-for="Nome">Nome:</label>
                 <input class="form-control" asp-for="Nome" name="Nome" id="Nome" type="text" value="@Model.Nome" required>
+                <span asp-validation-for="Nome" class="text-danger"></span>
                 <div class="invalid-feedback">
                     Informe o nome do garçom!
                 </div>
@@ -19,6 +20,7 @@
             <div class="mb-3">
                 <label class="form-label" asp-for="CPF">CPF:</label>
                 <input class="form-control" asp-for="CPF" name="CPF" id="CPF" type="text" value="@Model.CPF" required>
+                <span asp-validation-for="CPF" class="text-danger"></span>
                 <div class="invalid-feedback">
                     Informe o CPF do garçom!
                 </div>

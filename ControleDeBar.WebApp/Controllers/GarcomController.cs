@@ -3,6 +3,7 @@ using ControleDeBar.Infraestrutura.Arquivos.Compartilhado;
 using ControleDeBar.Infraestrutura.Arquivos.ModuloGarcom;
 using ControleDeBar.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace ControleDeBar.WebApp.Controllers
 {
@@ -35,6 +36,9 @@ namespace ControleDeBar.WebApp.Controllers
         [HttpPost]
         public IActionResult Cadastrar(CadastrarGarcomViewModel cadastrarVM)
         {
+            if (!ModelState.IsValid)
+                return View(cadastrarVM);
+
             Garcom novoGarcom = new Garcom(cadastrarVM.Nome, cadastrarVM.CPF);
 
             repositorioGarcom.Cadastrar(novoGarcom);
@@ -54,6 +58,9 @@ namespace ControleDeBar.WebApp.Controllers
         [HttpPost]
         public IActionResult Editar(int id, EditarGarcomViewModel editarVM)
         {
+            if (!ModelState.IsValid)
+                return View(editarVM);
+
             Garcom garcomAtual = repositorioGarcom.BuscarRegistroPorID(id);
             Garcom garcomAtualizado = new Garcom(editarVM.Nome, editarVM.CPF);
 
