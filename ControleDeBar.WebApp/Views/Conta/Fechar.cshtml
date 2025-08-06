@@ -1,0 +1,17 @@
+﻿@model FecharContaViewModel
+
+@{
+    ViewBag.Titulo = "Fechamento de Conta";
+}
+
+<html>
+<body>
+    <main class="col-4">
+        <form action="/Conta/FecharConfirmado/@Model.Id" method="post">
+            <p class="fw-bold">Deseja realmente fechar a conta do cliente @Model.NomeCliente?</p>
+            <a class="btn btn-secondary" asp-action="Index">Voltar</a>
+            <button class="btn btn-success" type="submit">Fechar</button>
+        </form>
+    </main>
+</body>
+</html>

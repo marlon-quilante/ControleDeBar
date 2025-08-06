@@ -64,7 +64,7 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
                 ApresentarMensagem("Essa conta já está fechada! Pressione ENTER para voltar...", ConsoleColor.Red);
                 return;
             }
-            conta.FecharConta();
+            repositorioConta.FecharConta(conta);
             Console.WriteLine();
             ApresentarMensagem("Conta fechada com sucesso!", ConsoleColor.Green);
         }
@@ -78,7 +78,7 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             foreach (Conta conta in repositorioConta.listaRegistros)
             {
                 Console.WriteLine("{0,-5} | {1,-15} | {2,-7} | {3, -15} | {4, -15}",
-                conta.Id, conta.NomeCliente, conta._mesa.Numero, conta._garcom.Nome, conta.Status);
+                conta.Id, conta.NomeCliente, conta.Mesa.Numero, conta.Garcom.Nome, conta.Status);
             }
             Console.WriteLine();
             ApresentarMensagem("Pressione ENTER para continuar...", ConsoleColor.Yellow);
@@ -228,10 +228,7 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
 
             Produto produto = repositorioProduto.BuscarRegistroPorID(idProduto);
             produto.QtdDoPedido = quantidade;
-
-            produto.MarcarPedido();
-            ListaProdutos.Add(produto);
-
+            repositorioProduto.MarcarPedido(produto);
             return ListaProdutos;
         }
 
@@ -255,9 +252,8 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
 
             if (repositorioConta.ProdutoExisteNoPedido(produto, conta))
             {
-                conta.Pedido.Remove(produto);
+                repositorioConta.RemoverProdutoDoPedido(produto, conta);
                 ApresentarMensagem("Produto removido com sucesso!", ConsoleColor.Green);
-                produto.DesmarcarPedido();
             }
             else
             {
@@ -311,12 +307,8 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
                         continue;
                     }
                 }
-
-                produto.QtdDoPedido = quantidade;
-                conta.Pedido.Add(produto);
+                repositorioConta.AdicionarProdutoNoPedido(produto, conta, quantidade);
                 ApresentarMensagem("Produto adicionado com sucesso!", ConsoleColor.Green);
-                repositorioConta.CalcularValor(conta);
-                produto.MarcarPedido();
             }
         }
     }

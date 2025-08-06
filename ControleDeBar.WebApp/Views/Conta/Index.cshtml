@@ -1,0 +1,53 @@
+﻿@model VisualizarContasViewModel
+
+@{
+    ViewBag.Titulo = "Contas";
+}
+
+<html>
+<body>
+    <div>
+        <a class="btn btn-primary mb-3" href="/Conta/Cadastrar">
+            <i class="bi bi-plus"></i>
+            Cadastrar
+        </a>
+    </div>
+
+    <main>
+        <div class="row g-2">
+            @foreach (DetalhesContaViewModel c in Model.Registros)
+            {
+                <div class="col-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Mesa Nº @c.Mesa.Numero</h5>
+                            <p class="card-text mb-0"><strong>Cliente: </strong>@c.NomeCliente</p>
+                            <p class="card-text mb-0"><strong>Garçom: </strong>@c.Garcom.Nome</p>
+                            <p class="card-text mb-0"><strong>Status: </strong>@c.Status</p>
+
+                            <div class="d-flex justify-content-end">
+
+                                <a class="btn btn-primary rounded-circle me-2 d-flex justify-content-center align-items-center" style="height: 35px; width: 35px" href="/Conta/Detalhes/@c.Id">
+                                    <i class="bi bi-search"></i>
+                                </a>
+
+                                <a class="btn btn-outline-warning rounded-circle me-2 d-flex justify-content-center align-items-center" style="height: 35px; width: 35px" href="/Conta/RemoverItens/@c.Id">
+                                    <i class="bi bi-cart-dash"></i>
+                                </a>
+
+                                <a class="btn btn-outline-success rounded-circle me-2 d-flex justify-content-center align-items-center" style="height: 35px; width: 35px" href="/Conta/AdicionarItens/@c.Id">
+                                    <i class="bi bi-cart-plus"></i>
+                                </a>
+
+                                <a class="btn btn-outline-light rounded-circle me-2 d-flex justify-content-center align-items-center" style="height: 35px; width: 35px" href="/Conta/Fechar/@c.Id">
+                                    <i class="bi bi-cash-coin"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </main>
+</body>
+</html>

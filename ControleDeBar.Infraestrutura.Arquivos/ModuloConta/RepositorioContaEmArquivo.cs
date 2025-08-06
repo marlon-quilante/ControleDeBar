@@ -1,13 +1,23 @@
-﻿using ControleDeBar.Dominio.Compartilhado;
-using ControleDeBar.Dominio.ModuloConta;
+﻿using ControleDeBar.Dominio.ModuloConta;
+using ControleDeBar.Dominio.ModuloMesa;
 using ControleDeBar.Dominio.ModuloProduto;
-using ControleDeBar.Infraestrutura.Memoria.ModuloProduto;
+using ControleDeBar.Infraestrutura.Arquivos.Compartilhado;
+using ControleDeBar.Infraestrutura.Arquivos.ModuloProduto;
 
-namespace ControleDeBar.Infraestrutura.Memoria.ModuloConta
+namespace ControleDeBar.Infraestrutura.Arquivos.ModuloConta
 {
-    public class RepositorioConta : RepositorioBase<Conta>
+    public class RepositorioContaEmArquivo : RepositorioBaseEmArquivo<Conta>
     {
-        public RepositorioProduto repositorioProduto;
+        private RepositorioProdutoEmArquivo repositorioProduto;
+
+        public RepositorioContaEmArquivo(ContextoDados contextoDados) : base(contextoDados)
+        {
+        }
+
+        public override List<Conta> BuscarRegistros()
+        {
+            return contextoDados.Contas;
+        }
 
         public override void Cadastrar(Conta conta)
         {
@@ -17,6 +27,7 @@ namespace ControleDeBar.Infraestrutura.Memoria.ModuloConta
             conta.Mesa.Ocupar();
             conta.Mesa.TemPedido = true;
             conta.Garcom.TemPedido = true;
+            contextoDados.Salvar();
         }
 
         public void CalcularValor(Conta conta)
@@ -37,6 +48,35 @@ namespace ControleDeBar.Infraestrutura.Memoria.ModuloConta
             return false;
         }
 
+        public void AdicionarProdutoNoPedido(Produto produto, Conta conta, decimal quantidade)
+        {
+            ContextoDados contextoDados = new ContextoDados(carregarDados: true);
+            repositorioProduto = new RepositorioProdutoEmArquivo(contextoDados);
+
+            if (!ProdutoExisteNoPedido(produto, conta))
+            {
+                produto.QtdDoPedido = quantidade;
+                conta.Pedido.Add(produto);
+                CalcularValor(conta);
+                repositorioProduto.MarcarPedido(produto);
+                contextoDados.Salvar();
+            }
+        }
+
+        public void RemoverProdutoDoPedido(Produto produto, Conta conta)
+        {
+            conta.Pedido.Remove(produto);
+            repositorioProduto.DesmarcarPedido(produto);
+            contextoDados.Salvar();
+        }
+
+        public void FecharConta(Conta conta)
+        {
+            conta.Status = "Fechada";
+            conta.Mesa.Desocupar();
+            contextoDados.Salvar();
+        }
+
         public decimal FechamentoDiario()
         {
             DateTime dataAtual = DateTime.Now;
@@ -55,27 +95,15 @@ namespace ControleDeBar.Infraestrutura.Memoria.ModuloConta
             return valorFechamento;
         }
 
-        public void AdicionarProdutoNoPedido(Produto produto, Conta conta, decimal quantidade)
+        public override int UltimoID()
         {
-            if (!ProdutoExisteNoPedido(produto, conta))
-            {
-                produto.QtdDoPedido = quantidade;
-                conta.Pedido.Add(produto);
-                CalcularValor(conta);
-                repositorioProduto.MarcarPedido(produto);
-            }
-        }
+            int ultimoID = 0;
+            List<Conta> contas = BuscarRegistros();
 
-        public void RemoverProdutoDoPedido(Produto produto, Conta conta)
-        {
-            conta.Pedido.Remove(produto);
-            repositorioProduto.DesmarcarPedido(produto);
-        }
+            foreach (Conta c in contas)
+                ultimoID = c.Id;
 
-        public void FecharConta(Conta conta)
-        {
-            conta.Status = "Fechada";
-            conta.Mesa.Desocupar();
+            return ultimoID;
         }
 
         public override bool RegistroDuplicado(Conta registro)

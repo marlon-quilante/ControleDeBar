@@ -17,16 +17,6 @@ namespace ControleDeBar.Dominio.ModuloProduto
             Preco = preco;
         }
 
-        public void MarcarPedido()
-        {
-            TemPedido = true;
-        }
-
-        public void DesmarcarPedido()
-        {
-            TemPedido = false;
-        }
-
         public override bool TemRestricaoDeExclusao()
         {
             if (TemPedido)

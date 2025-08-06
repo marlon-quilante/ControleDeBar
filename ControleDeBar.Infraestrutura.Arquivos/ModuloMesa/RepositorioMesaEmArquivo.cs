@@ -28,6 +28,7 @@ namespace ControleDeBar.Infraestrutura.Arquivos.ModuloMesa
         public override void Cadastrar(Mesa mesa)
         {
             base.Cadastrar(mesa);
+            contextoDados.Salvar();
         }
 
         public override void Editar(Mesa mesaAtual, Mesa mesaAtualizada)

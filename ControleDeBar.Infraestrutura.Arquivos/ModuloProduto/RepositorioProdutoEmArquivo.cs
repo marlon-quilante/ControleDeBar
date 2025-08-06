@@ -1,11 +1,15 @@
-﻿using ControleDeBar.Dominio.ModuloProduto;
+﻿using ControleDeBar.Dominio.ModuloConta;
+using ControleDeBar.Dominio.ModuloProduto;
 using ControleDeBar.Infraestrutura.Arquivos.Compartilhado;
+using ControleDeBar.Infraestrutura.Arquivos.ModuloConta;
 
 namespace ControleDeBar.Infraestrutura.Arquivos.ModuloProduto
 {
     public class RepositorioProdutoEmArquivo : RepositorioBaseEmArquivo<Produto>
     {
-        public RepositorioProdutoEmArquivo(ContextoDados contextoDados) : base(contextoDados)
+        private RepositorioContaEmArquivo repositorioConta;
+
+        public RepositorioProdutoEmArquivo(ContextoDados contextoDados) :base(contextoDados)
         {
         }
 
@@ -28,6 +32,7 @@ namespace ControleDeBar.Infraestrutura.Arquivos.ModuloProduto
         public override void Cadastrar(Produto produto)
         {
             base.Cadastrar(produto);
+            contextoDados.Salvar();
         }
 
         public override void Editar(Produto produtoAtual, Produto produtoAtualizado)
@@ -38,6 +43,27 @@ namespace ControleDeBar.Infraestrutura.Arquivos.ModuloProduto
                 produtoAtual.Preco = produtoAtualizado.Preco;
             }
             contextoDados.Salvar();
+        }
+
+        public void MarcarPedido(Produto produto)
+        {
+            produto.TemPedido = true;
+        }
+
+        public void DesmarcarPedido(Produto produto)
+        {
+            ContextoDados contextoDados = new ContextoDados(carregarDados: true);
+            repositorioConta = new RepositorioContaEmArquivo(contextoDados);
+
+            List<Conta> contas = repositorioConta.BuscarRegistros(); 
+
+            foreach (Conta c in contas)
+            {
+                if (repositorioConta.ProdutoExisteNoPedido(produto, c))
+                    return;
+
+                produto.TemPedido = false;
+            }
         }
 
         public override bool RegistroDuplicado(Produto produto)

@@ -24,7 +24,6 @@ namespace ControleDeBar.Infraestrutura.Arquivos.Compartilhado
                 registro.Id = UltimoID() + 1;
                 listaRegistros.Add(registro);
             }
-            contextoDados.Salvar();
         }
 
         public abstract void Editar(T registroAtual, T registroAtualizado);

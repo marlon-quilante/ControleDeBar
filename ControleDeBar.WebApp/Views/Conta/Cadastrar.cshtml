@@ -1,0 +1,86 @@
+﻿@model CadastrarContaViewModel
+
+@{
+    ViewBag.Titulo = "Cadastro de Conta";
+}
+
+<html>
+<body>
+    <main>
+        <form class="col-4 needs-validation" asp-action="Cadastrar" method="post" novalidate>
+            <div class="mb-3">
+                <label class="form-label" asp-for="NomeCliente">Nome do Cliente:</label>
+                <input class="form-control" asp-for="NomeCliente" name="NomeCliente" id="NomeCliente" type="text" placeholder="Digite o nome do cliente..." required>
+                <span asp-validation-for="NomeCliente" class="text-danger"></span>
+                <div class="invalid-feedback">
+                    Informe o nome do cliente!
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" asp-for="MesaID">Número da Mesa:</label>
+                <select class="form-control" asp-for="MesaID" name="MesaID" id="MesaID" required>
+                    @foreach (SelecionarMesaViewModel m in Model.Mesas)
+                    {
+                        <option value="@m.Id">Nº @m.Numero</option>
+                    }
+                </select>
+                <div class="invalid-feedback">
+                    Selecione uma mesa!
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" asp-for="GarcomID">Garçom:</label>
+                <select class="form-control" asp-for="GarcomID" name="GarcomID" id="GarcomID" required>
+                    @foreach (SelecionarGarcomViewModel g in Model.Garcons)
+                    {
+                        <option value="@g.Id">Nº @g.Nome</option>
+                    }
+                </select>
+                <div class="invalid-feedback">
+                    Selecione um garçom!
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" asp-for="ProdutoID">Produto:</label>
+                <select class="form-control" asp-for="ProdutoID" name="ProdutoID" id="ProdutoID" required>
+                    @foreach (SelecionarProdutoViewModel p in Model.Produtos)
+                    {
+                        <option value="@p.Id">Nº @p.Nome</option>
+                    }
+                </select>
+                <div class="invalid-feedback">
+                    Selecione um produto!
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end">
+                <a class="btn btn-secondary px-4 me-1" asp-action="Index">Voltar</a>
+                <button class="btn btn-success px-4" type="submit">Salvar</button>
+            </div>
+        </form>
+    </main>
+
+    @* Script de validação com Bootstrap *@
+    <script>
+        (() => {
+            'use strict'
+
+            const forms = document.querySelectorAll('.needs-validation')
+
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()){
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+</body>
+</html>

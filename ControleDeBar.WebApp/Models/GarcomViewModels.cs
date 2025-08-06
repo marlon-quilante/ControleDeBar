@@ -41,7 +41,7 @@ namespace ControleDeBar.WebApp.Models
 
     public class CadastrarGarcomViewModel 
     {
-        [MinLength(2, ErrorMessage = "O nome do garçom deve haver no mínimo 2 caracteres")]
+        [MinLength(2, ErrorMessage = "O nome do garçom deve possuir no mínimo 2 caracteres")]
         public string Nome { get; set; }
 
         [RegularExpression(@"^\d{3}\.\d{3}\.\d{3}-\d{2}$", ErrorMessage = "O CPF deve estar no formato xxx.xxx.xxx-xx")]
@@ -60,7 +60,7 @@ namespace ControleDeBar.WebApp.Models
     {
         public int Id { get; set; }
 
-        [MinLength(2, ErrorMessage = "O nome do garçom deve haver no mínimo 2 caracteres")]
+        [MinLength(2, ErrorMessage = "O nome do garçom deve possuir no mínimo 2 caracteres")]
         public string Nome { get; set; }
 
         [RegularExpression(@"^\d{3}\.\d{3}\.\d{3}-\d{2}$", ErrorMessage = "O CPF deve estar no formato xxx.xxx.xxx-xx")]

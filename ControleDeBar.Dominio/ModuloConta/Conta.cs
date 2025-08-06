@@ -9,23 +9,19 @@ namespace ControleDeBar.Dominio.ModuloConta
     {
         public List<Produto> Pedido { get; set; }
         public string NomeCliente { get; set; }
-        public Mesa _mesa { get; set; }
-        public Garcom _garcom { get; set; }
+        public Mesa Mesa { get; set; }
+        public Garcom Garcom { get; set; }
         public string Status { get; set; } = "Aberta";
         public DateTime DataAbertura { get; set; } = DateTime.Now;
+
+        public Conta() { }
 
         public Conta(string nomeCliente, Mesa mesa, Garcom garcom, List<Produto> pedido)
         {
             NomeCliente = nomeCliente;
-            _mesa = mesa;
-            _garcom = garcom;
+            Mesa = mesa;
+            Garcom = garcom;
             Pedido = pedido;
-        }
-
-        public void FecharConta()
-        {
-            Status = "Fechada";
-            _mesa.Desocupar();
         }
 
         public override bool TemRestricaoDeExclusao()

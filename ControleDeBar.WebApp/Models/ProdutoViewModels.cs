@@ -41,7 +41,7 @@ namespace ControleDeBar.WebApp.Models
 
     public class CadastrarProdutoViewModel
     {
-        [MinLength(2, ErrorMessage = "O nome do produto deve haver no mínimo 2 caracteres")]
+        [MinLength(2, ErrorMessage = "O nome do produto deve possuir no mínimo 2 caracteres")]
         public string Nome { get; set; }
         public decimal Preco { get; set; }
 
@@ -58,7 +58,7 @@ namespace ControleDeBar.WebApp.Models
     {
         public int Id { get; set; }
 
-        [MinLength(2, ErrorMessage = "O nome do produto deve haver no mínimo 2 caracteres")]
+        [MinLength(2, ErrorMessage = "O nome do produto deve possuir no mínimo 2 caracteres")]
         public string Nome { get; set; }
         public decimal Preco { get; set; }
 

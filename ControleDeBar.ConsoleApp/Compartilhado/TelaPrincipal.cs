@@ -35,9 +35,11 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
             telaGarcom = new TelaGarcom(repositorioGarcom);
 
             repositorioProduto = new RepositorioProduto();
+            repositorioProduto.repositorioConta = repositorioConta;
             telaProduto = new TelaProduto(repositorioProduto);
 
             repositorioConta = new RepositorioConta();
+            repositorioConta.repositorioProduto = repositorioProduto;
             telaConta = new TelaConta(repositorioConta);
             telaConta.repositorioMesa = repositorioMesa;
             telaConta.repositorioGarcom = repositorioGarcom;

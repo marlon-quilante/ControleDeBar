@@ -28,6 +28,7 @@ namespace ControleDeBar.Infraestrutura.Arquivos.ModuloGarcom
         public override void Cadastrar(Garcom garcom)
         {
             base.Cadastrar(garcom);
+            contextoDados.Salvar();
         }
 
         public override void Editar(Garcom garcomAtual, Garcom garcomAtualizado)
