@@ -1,7 +1,7 @@
 ﻿using ControleDeBar.Dominio.ModuloConta;
 using ControleDeBar.Dominio.ModuloGarcom;
 using ControleDeBar.Dominio.ModuloMesa;
-using ControleDeBar.Dominio.ModuloProduto;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
 namespace ControleDeBar.WebApp.Models
@@ -30,11 +30,11 @@ namespace ControleDeBar.WebApp.Models
         public string NomeCliente { get; set; }
         public Mesa Mesa { get; set; }
         public Garcom Garcom { get; set; }
-        public List<Produto> Pedido { get; set; }
+        public Pedido Pedido { get; set; }
         public string Status { get; set; }
         public DateTime DataAbertura { get; set; }
 
-        public DetalhesContaViewModel(int id, string nomeCliente, Mesa mesa, Garcom garcom, List<Produto> pedido, DateTime dataAbertura, string status)
+        public DetalhesContaViewModel(int id, string nomeCliente, Mesa mesa, Garcom garcom, Pedido pedido, DateTime dataAbertura, string status)
         {
             Id = id;
             NomeCliente = nomeCliente;
@@ -90,39 +90,31 @@ namespace ControleDeBar.WebApp.Models
         public DateTime DataAbertura { get; set; }
         public int GarcomID { get; set; }
         public int MesaID { get; set; }
-        public int ProdutoID { get; set; }
-        public List<SelecionarMesaViewModel> Mesas { get; set; }
-        public List<SelecionarGarcomViewModel> Garcons { get; set; }
-        public List<SelecionarProdutoViewModel> Produtos { get; set; }
+        public List<SelectListItem> MesasDisponiveis { get; set; }
+        public List<SelectListItem> GarconsDisponiveis { get; set; }
 
         public CadastrarContaViewModel()
         {
-            Garcons = new List<SelecionarGarcomViewModel>();
-            Mesas = new List<SelecionarMesaViewModel>();
-            Produtos = new List<SelecionarProdutoViewModel>();
+            GarconsDisponiveis = new List<SelectListItem>();
+            MesasDisponiveis = new List<SelectListItem>();
         }
 
-        public CadastrarContaViewModel(List<Mesa> mesas, List<Garcom> garcons, List<Produto> produtos) : this()
+        public CadastrarContaViewModel(List<Mesa> mesas, List<Garcom> garcons) : this()
         {
             foreach (Garcom g in garcons)
             {
-                SelecionarGarcomViewModel selecionarEquipamentoVM = new SelecionarGarcomViewModel(g.Id, g.Nome);
+                SelectListItem garcomDisponivel = new SelectListItem(g.Nome.ToString(), g.Id.ToString());
 
-                Garcons.Add(selecionarEquipamentoVM);
+                GarconsDisponiveis.Add(garcomDisponivel);
             }
 
             foreach (Mesa m in mesas)
             {
-                SelecionarMesaViewModel selecionarMesaVM = new SelecionarMesaViewModel(m.Id, m.Numero);
-
-                Mesas.Add(selecionarMesaVM);
-            }
-
-            foreach (Produto p in produtos)
-            {
-                SelecionarProdutoViewModel selecionarProdutoVM = new SelecionarProdutoViewModel(p.Id, p.Nome);
-
-                Produtos.Add(selecionarProdutoVM);
+                if (m.Status == "Livre")
+                {
+                    SelectListItem mesaDisponivel = new SelectListItem(m.Numero.ToString(), m.Id.ToString());
+                    MesasDisponiveis.Add(mesaDisponivel);
+                }
             }
         }
     }

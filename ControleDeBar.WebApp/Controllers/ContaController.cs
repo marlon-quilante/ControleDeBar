@@ -59,7 +59,7 @@ namespace ControleDeBar.WebApp.Controllers
             List<Garcom> garcons = repositorioGarcom.BuscarRegistros();
             List<Produto> produtos = repositorioProduto.BuscarRegistros();
 
-            CadastrarContaViewModel cadastrarVM = new CadastrarContaViewModel(mesas, garcons, produtos);
+            CadastrarContaViewModel cadastrarVM = new CadastrarContaViewModel(mesas, garcons);
 
             return View(cadastrarVM);
         }
@@ -72,18 +72,15 @@ namespace ControleDeBar.WebApp.Controllers
                 List<Mesa> mesas = repositorioMesa.BuscarRegistros();
                 List<Garcom> garcons = repositorioGarcom.BuscarRegistros();
                 List<Produto> produtos = repositorioProduto.BuscarRegistros();
-
-                cadastrarVM = new CadastrarContaViewModel(mesas, garcons, produtos);
+                    
+                cadastrarVM = new CadastrarContaViewModel(mesas, garcons);
                 
                 return View(cadastrarVM);
             }
 
             Mesa mesaSelecionada = repositorioMesa.BuscarRegistroPorID(cadastrarVM.MesaID);
             Garcom garcomSelecionado = repositorioGarcom.BuscarRegistroPorID(cadastrarVM.GarcomID);
-            Produto produtoSelecionado = repositorioProduto.BuscarRegistroPorID(cadastrarVM.ProdutoID);
-
-            List<Produto> pedido = new List<Produto>();
-            pedido.Add(produtoSelecionado);
+            Pedido pedido = new Pedido();
 
             Conta conta = new Conta(cadastrarVM.NomeCliente, mesaSelecionada, garcomSelecionado, pedido);
             conta.DataAbertura = DateTime.Now;

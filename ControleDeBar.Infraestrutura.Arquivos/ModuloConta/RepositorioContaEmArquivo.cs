@@ -1,5 +1,4 @@
 ﻿using ControleDeBar.Dominio.ModuloConta;
-using ControleDeBar.Dominio.ModuloMesa;
 using ControleDeBar.Dominio.ModuloProduto;
 using ControleDeBar.Infraestrutura.Arquivos.Compartilhado;
 using ControleDeBar.Infraestrutura.Arquivos.ModuloProduto;
@@ -23,51 +22,43 @@ namespace ControleDeBar.Infraestrutura.Arquivos.ModuloConta
         {
             base.Cadastrar(conta);
 
-            CalcularValor(conta);
             conta.Mesa.Ocupar();
             conta.Mesa.TemPedido = true;
             conta.Garcom.TemPedido = true;
             contextoDados.Salvar();
         }
 
-        public void CalcularValor(Conta conta)
+        public void CalcularValorPedido(Conta conta)
         {
-            foreach (Produto produto in conta.Pedido)
+            foreach (ProdutoPedido produtoPedido in conta.Pedido.Produtos)
             {
-                if (produto.ValorDoPedido == 0)
-                {
-                    produto.ValorDoPedido = produto.Preco * produto.QtdDoPedido;
-                }
+                conta.Pedido.ValorTotal += produtoPedido.Preco * produtoPedido.Quantidade;
             }
         }
 
         public bool ProdutoExisteNoPedido(Produto produto, Conta conta)
         {
-            if (conta.Pedido.Contains(produto))
+            if (conta.Pedido.Produtos.Contains(produto))
                 return true;
             return false;
         }
 
-        public void AdicionarProdutoNoPedido(Produto produto, Conta conta, decimal quantidade)
+        public void AdicionarProdutoNoPedido(Produto produto, Conta conta)
         {
-            ContextoDados contextoDados = new ContextoDados(carregarDados: true);
-            repositorioProduto = new RepositorioProdutoEmArquivo(contextoDados);
-
             if (!ProdutoExisteNoPedido(produto, conta))
             {
-                produto.QtdDoPedido = quantidade;
-                conta.Pedido.Add(produto);
-                CalcularValor(conta);
-                repositorioProduto.MarcarPedido(produto);
+                conta.Pedido.Produtos.Add((ProdutoPedido)produto);
                 contextoDados.Salvar();
             }
         }
 
         public void RemoverProdutoDoPedido(Produto produto, Conta conta)
         {
-            conta.Pedido.Remove(produto);
-            repositorioProduto.DesmarcarPedido(produto);
-            contextoDados.Salvar();
+            if (ProdutoExisteNoPedido(produto, conta))
+            {
+                conta.Pedido.Produtos.Remove((ProdutoPedido)produto);
+                contextoDados.Salvar();
+            }
         }
 
         public void FecharConta(Conta conta)
@@ -77,7 +68,7 @@ namespace ControleDeBar.Infraestrutura.Arquivos.ModuloConta
             contextoDados.Salvar();
         }
 
-        public decimal FechamentoDiario()
+        public decimal ValorFechamentoDiario()
         {
             DateTime dataAtual = DateTime.Now;
             decimal valorFechamento = 0;
@@ -86,10 +77,7 @@ namespace ControleDeBar.Infraestrutura.Arquivos.ModuloConta
             {
                 if (dataAtual.Day == conta.DataAbertura.Day)
                 {
-                    foreach (Produto produto in conta.Pedido)
-                    {
-                        valorFechamento += produto.ValorDoPedido;
-                    }
+                    valorFechamento += conta.Pedido.ValorTotal;
                 }
             }
             return valorFechamento;

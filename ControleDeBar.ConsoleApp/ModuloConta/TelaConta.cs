@@ -99,7 +99,7 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
 
             Console.WriteLine("{0,-5} | {1,-12} | {2,-10} | {3, -15} | {4, -15}",
                 "ID", "Produto", "Preço", "Quantidade", "Valor Total");
-            foreach (Produto produto in conta.Pedido)
+            foreach (Produto produto in conta.Pedido.Produtos)
             {
                 Console.WriteLine("{0,-5} | {1,-12} | {2,-10} | {3, -15} | {4, -15}",
                 conta.Id, produto.Nome, produto.Preco.ToString("C2"), produto.QtdDoPedido, produto.ValorDoPedido.ToString("C2"));
@@ -115,7 +115,7 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             Console.WriteLine("Conta - Fechamento Diário");
             Console.WriteLine("-------------------------\n");
 
-            decimal valorFechamento = repositorioConta.FechamentoDiario();
+            decimal valorFechamento = repositorioConta.ValorFechamentoDiario();
 
             Console.WriteLine("{0,-15} | {1,-10}",
                 "Data", "Valor Total");
@@ -129,8 +129,6 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
 
         public override Conta ObterDados()
         {
-            List<Produto> pedido = new List<Produto>();
-
             Console.Write("Digite o nome do cliente: ");
             string nomeCliente = Console.ReadLine();
             Console.WriteLine();
@@ -139,7 +137,9 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             Garcom garcom = ObterDadosGarcom();
             Console.WriteLine();
 
-            pedido = ObterDadosPedido();
+            List<ProdutoPedido> produtos = ObterProdutosPedido();
+
+            Pedido pedido = new Pedido(produtos);
 
             return new Conta(nomeCliente, mesa, garcom, pedido);
         }
@@ -202,9 +202,10 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             return mesa;
         }
 
-        private List<Produto> ObterDadosPedido()
+        private List<ProdutoPedido> ObterProdutosPedido()
         {
-            List<Produto> ListaProdutos = new List<Produto>();
+            List<ProdutoPedido> listaProdutos = new List<ProdutoPedido>();
+
             decimal quantidade = 0;
             bool quantidadeValida = false;
 
@@ -227,9 +228,9 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             }
 
             Produto produto = repositorioProduto.BuscarRegistroPorID(idProduto);
-            produto.QtdDoPedido = quantidade;
-            repositorioProduto.MarcarPedido(produto);
-            return ListaProdutos;
+            ProdutoPedido produtoPedido = new ProdutoPedido(produto.Nome, produto.Preco, quantidade);
+            listaProdutos.Add(produtoPedido);
+            return listaProdutos;
         }
 
         public void RemoverProdutoDoPedido()
@@ -307,7 +308,7 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
                         continue;
                     }
                 }
-                repositorioConta.AdicionarProdutoNoPedido(produto, conta, quantidade);
+                repositorioConta.AdicionarProdutoNoPedido(produto, conta);
                 ApresentarMensagem("Produto adicionado com sucesso!", ConsoleColor.Green);
             }
         }

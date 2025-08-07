@@ -1,5 +1,4 @@
 ﻿using ControleDeBar.Dominio.Compartilhado;
-using ControleDeBar.Dominio.ModuloConta;
 
 namespace ControleDeBar.Dominio.ModuloProduto
 {

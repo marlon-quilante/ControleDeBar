@@ -13,31 +13,28 @@ namespace ControleDeBar.Infraestrutura.Memoria.ModuloConta
         {
             base.Cadastrar(conta);
 
-            CalcularValor(conta);
+            CalcularValorPedido(conta);
             conta.Mesa.Ocupar();
             conta.Mesa.TemPedido = true;
             conta.Garcom.TemPedido = true;
         }
 
-        public void CalcularValor(Conta conta)
+        public void CalcularValorPedido(Conta conta)
         {
-            foreach (Produto produto in conta.Pedido)
+            foreach (ProdutoPedido produtoPedido in conta.Pedido.Produtos)
             {
-                if (produto.ValorDoPedido == 0)
-                {
-                    produto.ValorDoPedido = produto.Preco * produto.QtdDoPedido;
-                }
+                conta.Pedido.ValorTotal += produtoPedido.Preco * produtoPedido.Quantidade;
             }
         }
 
         public bool ProdutoExisteNoPedido(Produto produto, Conta conta)
         {
-            if (conta.Pedido.Contains(produto))
+            if (conta.Pedido.Produtos.Contains(produto))
                 return true;
             return false;
         }
 
-        public decimal FechamentoDiario()
+        public decimal ValorFechamentoDiario()
         {
             DateTime dataAtual = DateTime.Now;
             decimal valorFechamento = 0;
@@ -46,30 +43,26 @@ namespace ControleDeBar.Infraestrutura.Memoria.ModuloConta
             {
                 if (dataAtual.Day == conta.DataAbertura.Day)
                 {
-                    foreach (Produto produto in conta.Pedido)
-                    {
-                        valorFechamento += produto.ValorDoPedido;
-                    }
+                    valorFechamento += conta.Pedido.ValorTotal;
                 }
             }
             return valorFechamento;
         }
 
-        public void AdicionarProdutoNoPedido(Produto produto, Conta conta, decimal quantidade)
+        public void AdicionarProdutoNoPedido(Produto produto, Conta conta)
         {
             if (!ProdutoExisteNoPedido(produto, conta))
             {
-                produto.QtdDoPedido = quantidade;
-                conta.Pedido.Add(produto);
-                CalcularValor(conta);
-                repositorioProduto.MarcarPedido(produto);
+                conta.Pedido.Produtos.Add((ProdutoPedido)produto);
             }
         }
 
         public void RemoverProdutoDoPedido(Produto produto, Conta conta)
         {
-            conta.Pedido.Remove(produto);
-            repositorioProduto.DesmarcarPedido(produto);
+            if (ProdutoExisteNoPedido(produto, conta))
+            {
+                conta.Pedido.Produtos.Remove((ProdutoPedido)produto);
+            }
         }
 
         public void FecharConta(Conta conta)
