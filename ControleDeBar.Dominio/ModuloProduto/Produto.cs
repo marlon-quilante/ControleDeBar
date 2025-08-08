@@ -6,8 +6,6 @@ namespace ControleDeBar.Dominio.ModuloProduto
     {
         public string Nome { get; set; }
         public decimal Preco { get; set; }
-        public decimal QtdDoPedido { get; set; } = 0;
-        public decimal ValorDoPedido { get; set; } = 0;
         public bool TemPedido { get; set; }
 
         public Produto(string nome, decimal preco)

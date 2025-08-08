@@ -84,7 +84,7 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             ApresentarMensagem("Pressione ENTER para continuar...", ConsoleColor.Yellow);
         }
 
-        public void VisualizarPedido()
+        public void VisualizarPedidos()
         {
             Console.Clear();
             Console.WriteLine("-------------------------");
@@ -99,10 +99,10 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
 
             Console.WriteLine("{0,-5} | {1,-12} | {2,-10} | {3, -15} | {4, -15}",
                 "ID", "Produto", "Preço", "Quantidade", "Valor Total");
-            foreach (Produto produto in conta.Pedido.Produtos)
+            foreach (Pedido p in conta.Pedidos)
             {
                 Console.WriteLine("{0,-5} | {1,-12} | {2,-10} | {3, -15} | {4, -15}",
-                conta.Id, produto.Nome, produto.Preco.ToString("C2"), produto.QtdDoPedido, produto.ValorDoPedido.ToString("C2"));
+                p.Id, p.Produto.Nome, p.Produto.Preco.ToString("C2"), p.Quantidade, p.ValorPedido.ToString("C2"));
             }
             Console.WriteLine();
             ApresentarMensagem("Pressione ENTER para continuar...", ConsoleColor.Yellow);
@@ -136,12 +136,12 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             Console.WriteLine();
             Garcom garcom = ObterDadosGarcom();
             Console.WriteLine();
+            Pedido pedido = ObterDadosPedido();
 
-            List<ProdutoPedido> produtos = ObterProdutosPedido();
+            List<Pedido> pedidos = new List<Pedido>();
+            pedidos.Add(pedido);
 
-            Pedido pedido = new Pedido(produtos);
-
-            return new Conta(nomeCliente, mesa, garcom, pedido);
+            return new Conta(nomeCliente, mesa, garcom, pedidos);
         }
 
         private Garcom ObterDadosGarcom()
@@ -202,10 +202,8 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             return mesa;
         }
 
-        private List<ProdutoPedido> ObterProdutosPedido()
+        private Pedido ObterDadosPedido()
         {
-            List<ProdutoPedido> listaProdutos = new List<ProdutoPedido>();
-
             decimal quantidade = 0;
             bool quantidadeValida = false;
 
@@ -228,12 +226,11 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             }
 
             Produto produto = repositorioProduto.BuscarRegistroPorID(idProduto);
-            ProdutoPedido produtoPedido = new ProdutoPedido(produto.Nome, produto.Preco, quantidade);
-            listaProdutos.Add(produtoPedido);
-            return listaProdutos;
+            Pedido pedido = new Pedido(produto, quantidade);
+            return pedido;
         }
 
-        public void RemoverProdutoDoPedido()
+        public void RemoverPedido()
         {
             Console.Clear();
             Console.WriteLine("---------------------------------");
@@ -251,21 +248,21 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             int idProduto = telaProduto.ObterID();
             Produto produto = repositorioProduto.BuscarRegistroPorID(idProduto);
 
-            if (repositorioConta.ProdutoExisteNoPedido(produto, conta))
+            if (repositorioConta.ProdutoTemPedido(produto))
             {
-                repositorioConta.RemoverProdutoDoPedido(produto, conta);
+                repositorioConta.RemoverPedido(produto, conta);
                 ApresentarMensagem("Produto removido com sucesso!", ConsoleColor.Green);
             }
             else
             {
                 Console.WriteLine();
                 ApresentarMensagem("Este produto não está no pedido informado! Pressione ENTER para tentar novamente...", ConsoleColor.Red);
-                RemoverProdutoDoPedido();
+                RemoverPedido();
                 return;
             }
         }
 
-        public void AdicionarProdutoNoPedido()
+        public void AdicionarPedido()
         {
             decimal quantidade = 0;
             bool quantidadeValida = false;
@@ -286,11 +283,11 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             int idProduto = telaProduto.ObterID();
             Produto produto = repositorioProduto.BuscarRegistroPorID(idProduto);
 
-            if (repositorioConta.ProdutoExisteNoPedido(produto, conta))
+            if (repositorioConta.ProdutoTemPedido(produto))
             {
                 Console.WriteLine();
                 ApresentarMensagem("Este produto já está no pedido informado! Pressione ENTER para tentar novamente...", ConsoleColor.Red);
-                AdicionarProdutoNoPedido();
+                AdicionarPedido();
                 return;
             }
             else
@@ -308,7 +305,7 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
                         continue;
                     }
                 }
-                repositorioConta.AdicionarProdutoNoPedido(produto, conta);
+                repositorioConta.AdicionarPedido(produto, conta, quantidade);
                 ApresentarMensagem("Produto adicionado com sucesso!", ConsoleColor.Green);
             }
         }

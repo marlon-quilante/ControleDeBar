@@ -6,7 +6,8 @@ namespace ControleDeBar.Dominio.ModuloConta
 {
     public class Conta : EntidadeBase<Conta>
     {
-        public Pedido Pedido { get; set; }
+        public List<Pedido> Pedidos { get; set; }
+        public decimal ValorTotalConta { get; set; }
         public string NomeCliente { get; set; }
         public Mesa Mesa { get; set; }
         public Garcom Garcom { get; set; }
@@ -15,12 +16,19 @@ namespace ControleDeBar.Dominio.ModuloConta
 
         public Conta() { }
 
-        public Conta(string nomeCliente, Mesa mesa, Garcom garcom, Pedido pedido)
+        public Conta(string nomeCliente, Mesa mesa, Garcom garcom)
         {
             NomeCliente = nomeCliente;
             Mesa = mesa;
             Garcom = garcom;
-            Pedido = pedido;
+        }
+
+        public Conta(string nomeCliente, Mesa mesa, Garcom garcom, List<Pedido> pedidos)
+        {
+            NomeCliente = nomeCliente;
+            Mesa = mesa;
+            Garcom = garcom;
+            Pedidos = pedidos;
         }
 
         public override bool TemRestricaoDeExclusao()

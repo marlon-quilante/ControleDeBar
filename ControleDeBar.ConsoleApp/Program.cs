@@ -27,10 +27,10 @@ namespace ControleDeBar.ConsoleApp
                         case 1: telaEscolhida.Cadastrar(); break;
                         case 2: telaEscolhida.Visualizar(); break;
                         case 3: telaPrincipal.telaConta.VisualizarFechamentoDiario(); break;
-                        case 4: telaPrincipal.telaConta.VisualizarPedido(); break;
+                        case 4: telaPrincipal.telaConta.VisualizarPedidos(); break;
                         case 5: telaPrincipal.telaConta.FecharConta(); break;
-                        case 6: telaPrincipal.telaConta.AdicionarProdutoNoPedido(); break;
-                        case 7: telaPrincipal.telaConta.RemoverProdutoDoPedido(); break;
+                        case 6: telaPrincipal.telaConta.AdicionarPedido(); break;
+                        case 7: telaPrincipal.telaConta.RemoverPedido(); break;
                         default: break;
                     }
                 }

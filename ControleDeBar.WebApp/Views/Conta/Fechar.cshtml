@@ -1,4 +1,5 @@
-﻿@model FecharContaViewModel
+﻿@using ControleDeBar.Dominio.ModuloConta
+@model FecharContaViewModel
 
 @{
     ViewBag.Titulo = "Fechamento de Conta";
@@ -6,11 +7,55 @@
 
 <html>
 <body>
-    <main class="col-4">
-        <form action="/Conta/FecharConfirmado/@Model.Id" method="post">
-            <p class="fw-bold">Deseja realmente fechar a conta do cliente @Model.NomeCliente?</p>
-            <a class="btn btn-secondary" asp-action="Index">Voltar</a>
-            <button class="btn btn-success" type="submit">Fechar</button>
+    <main>
+        <form class="col-4" action="/Conta/FecharConfirmado/@Model.Id" method="post">
+            <div class="mb-3">
+                <label class="form-label" asp-for="NomeCliente">Nome do Cliente:</label>
+                <input class="form-control" asp-for="NomeCliente" name="NomeCliente" id="NomeCliente" type="text" value="@Model.NomeCliente" disabled>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" asp-for="Mesa">Número da Mesa:</label>
+                <input class="form-control" asp-for="Mesa" name="Mesa" id="Mesa" type="text" value="@Model.Mesa.Numero" disabled>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" asp-for="Garcom">Número da Mesa:</label>
+                <input class="form-control" asp-for="Garcom" name="Garcom" id="Garcom" type="text" value="@Model.Garcom.Nome" disabled>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" asp-for="DataAbertura">Data/Hora de Abertura:</label>
+                <input class="form-control" asp-for="DataAbertura" name="DataAbertura" id="DataAbertura" type="text" value="@Model.DataAbertura" disabled>
+            </div>
+
+            <div class="mb-3">
+                <h5>Pedidos</h5>
+                <table class="table table-striped">
+                    @foreach (Pedido p in Model.Pedidos)
+                    {
+                        <thead>
+                            <tr>
+                                <th>Produto</th>
+                                <th>Preço</th>
+                                <th>Quantidade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>@p.Produto.Nome</td>
+                                <td>@p.Produto.Preco</td>
+                                <td>@p.Quantidade</td>
+                            </tr>
+                        </tbody>
+                    }
+                </table>
+            </div>
+
+            <div class="d-flex justify-content-end">
+                <a class="btn btn-secondary px-4 me-1" asp-action="Index">Voltar</a>
+                <button class="btn btn-success px-4" type="submit">Fechar</button>
+            </div>
         </form>
     </main>
 </body>

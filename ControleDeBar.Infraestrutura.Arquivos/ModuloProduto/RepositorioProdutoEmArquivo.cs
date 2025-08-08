@@ -59,7 +59,7 @@ namespace ControleDeBar.Infraestrutura.Arquivos.ModuloProduto
 
             foreach (Conta c in contas)
             {
-                if (repositorioConta.ProdutoExisteNoPedido(produto, c))
+                if (repositorioConta.ProdutoTemPedido(produto))
                     return;
 
                 produto.TemPedido = false;

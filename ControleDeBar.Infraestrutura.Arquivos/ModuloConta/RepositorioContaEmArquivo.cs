@@ -28,37 +28,24 @@ namespace ControleDeBar.Infraestrutura.Arquivos.ModuloConta
             contextoDados.Salvar();
         }
 
-        public void CalcularValorPedido(Conta conta)
+        public void AdicionarPedido(Produto produto, Conta conta, decimal quantidade)
         {
-            foreach (ProdutoPedido produtoPedido in conta.Pedido.Produtos)
-            {
-                conta.Pedido.ValorTotal += produtoPedido.Preco * produtoPedido.Quantidade;
-            }
+            int idPedido = UltimoIDPedido() + 1;
+            Pedido pedido = new Pedido(idPedido, produto, quantidade);
+            conta.Pedidos.Add(pedido);
+            contextoDados.Salvar();
         }
 
-        public bool ProdutoExisteNoPedido(Produto produto, Conta conta)
+        public void RemoverPedido(Pedido pedido, Conta conta)
         {
-            if (conta.Pedido.Produtos.Contains(produto))
-                return true;
-            return false;
+            conta.Pedidos.Remove(pedido);
+            contextoDados.Salvar();
         }
 
-        public void AdicionarProdutoNoPedido(Produto produto, Conta conta)
+        public void CalcularValorTotalConta(Conta conta)
         {
-            if (!ProdutoExisteNoPedido(produto, conta))
-            {
-                conta.Pedido.Produtos.Add((ProdutoPedido)produto);
-                contextoDados.Salvar();
-            }
-        }
-
-        public void RemoverProdutoDoPedido(Produto produto, Conta conta)
-        {
-            if (ProdutoExisteNoPedido(produto, conta))
-            {
-                conta.Pedido.Produtos.Remove((ProdutoPedido)produto);
-                contextoDados.Salvar();
-            }
+            foreach (Pedido p in conta.Pedidos)
+                conta.ValorTotalConta += p.ValorPedido;
         }
 
         public void FecharConta(Conta conta)
@@ -77,10 +64,23 @@ namespace ControleDeBar.Infraestrutura.Arquivos.ModuloConta
             {
                 if (dataAtual.Day == conta.DataAbertura.Day)
                 {
-                    valorFechamento += conta.Pedido.ValorTotal;
+                    valorFechamento += conta.ValorTotalConta;
                 }
             }
             return valorFechamento;
+        }
+
+        public bool ProdutoTemPedido(Produto produto)
+        {
+            foreach (Conta c in BuscarRegistros())
+            {
+                foreach (Pedido p in c.Pedidos)
+                {
+                    if (p.Produto.Id == produto.Id)
+                        return true;
+                }
+            }
+            return false;
         }
 
         public override int UltimoID()
@@ -91,6 +91,19 @@ namespace ControleDeBar.Infraestrutura.Arquivos.ModuloConta
             foreach (Conta c in contas)
                 ultimoID = c.Id;
 
+            return ultimoID;
+        }
+
+        public int UltimoIDPedido()
+        {
+            int ultimoID = 0;
+            List<Conta> contas = BuscarRegistros();
+
+            foreach (Conta c in contas)
+            {
+                foreach (Pedido p in c.Pedidos)
+                    ultimoID = p.Id;
+            }
             return ultimoID;
         }
 

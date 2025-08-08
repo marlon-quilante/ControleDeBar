@@ -34,7 +34,7 @@ namespace ControleDeBar.Infraestrutura.Memoria.ModuloProduto
         {
             foreach (Conta c in repositorioConta.listaRegistros)
             {
-                if (repositorioConta.ProdutoExisteNoPedido(produto, c))
+                if (repositorioConta.ProdutoTemPedido(produto))
                     return;
 
                 produto.TemPedido = false;

@@ -18,7 +18,7 @@ namespace ControleDeBar.WebApp.Models
 
             foreach (Conta c in contas)
             {
-                DetalhesContaViewModel detalhesVM = new DetalhesContaViewModel(c.Id, c.NomeCliente, c.Mesa, c.Garcom, c.Pedido, c.DataAbertura, c.Status);
+                DetalhesContaViewModel detalhesVM = new DetalhesContaViewModel(c.Id, c.NomeCliente, c.Mesa, c.Garcom, c.Pedidos, c.DataAbertura, c.Status, c.ValorTotalConta);
                 Registros.Add(detalhesVM);
             }
         }
@@ -30,19 +30,26 @@ namespace ControleDeBar.WebApp.Models
         public string NomeCliente { get; set; }
         public Mesa Mesa { get; set; }
         public Garcom Garcom { get; set; }
-        public Pedido Pedido { get; set; }
+        public List<Pedido> Pedidos { get; set; }
         public string Status { get; set; }
         public DateTime DataAbertura { get; set; }
+        public decimal ValorTotalConta { get; set; }
 
-        public DetalhesContaViewModel(int id, string nomeCliente, Mesa mesa, Garcom garcom, Pedido pedido, DateTime dataAbertura, string status)
+        public DetalhesContaViewModel()
+        {
+            Pedidos = new List<Pedido>();
+        }
+
+        public DetalhesContaViewModel(int id, string nomeCliente, Mesa mesa, Garcom garcom, List<Pedido> pedidos, DateTime dataAbertura, string status, decimal valorTotalConta)
         {
             Id = id;
             NomeCliente = nomeCliente;
             Mesa = mesa;
             Garcom = garcom;
-            Pedido = pedido;
+            Pedidos = pedidos;
             DataAbertura = dataAbertura;
             Status = status;
+            ValorTotalConta = valorTotalConta;
         }
     }
 
@@ -86,7 +93,6 @@ namespace ControleDeBar.WebApp.Models
     {
         [MinLength(2, ErrorMessage = "O nome do cliente possuir no mínimo 2 caracteres")]
         public string NomeCliente { get; set; }
-
         public DateTime DataAbertura { get; set; }
         public int GarcomID { get; set; }
         public int MesaID { get; set; }
@@ -121,13 +127,24 @@ namespace ControleDeBar.WebApp.Models
 
     public class FecharContaViewModel 
     {
-        public int Id {  get; set; }
+        public int Id { get; set; }
         public string NomeCliente { get; set; }
+        public Mesa Mesa { get; set; }
+        public Garcom Garcom { get; set; }
+        public List<Pedido> Pedidos { get; set; }
+        public string Status { get; set; }
+        public DateTime DataAbertura { get; set; }
+        public decimal ValorTotalConta { get; set; }
 
-        public FecharContaViewModel(int id, string nomeCliente)
+        public FecharContaViewModel(int id, string nomeCliente, Mesa mesa, Garcom garcom, List<Pedido> pedidos, DateTime dataAbertura, decimal valorTotalConta)
         {
             Id = id;
             NomeCliente = nomeCliente;
+            Mesa = mesa;
+            Garcom = garcom;
+            Pedidos = pedidos;
+            DataAbertura = dataAbertura;
+            ValorTotalConta = valorTotalConta;
         }
     }
 }

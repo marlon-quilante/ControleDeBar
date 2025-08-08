@@ -46,9 +46,13 @@ namespace ControleDeBar.WebApp.Controllers
                 contaSelecionada.NomeCliente, 
                 contaSelecionada.Mesa, 
                 contaSelecionada.Garcom, 
-                contaSelecionada.Pedido, 
+                contaSelecionada.Pedidos, 
                 contaSelecionada.DataAbertura, 
-                contaSelecionada.Status);
+                contaSelecionada.Status,
+                contaSelecionada.ValorTotalConta);
+
+            if (detalhesVM.Pedidos == null)
+                detalhesVM.Pedidos = new List<Pedido>();
 
             return View(detalhesVM);
         }
@@ -57,7 +61,6 @@ namespace ControleDeBar.WebApp.Controllers
         {
             List<Mesa> mesas = repositorioMesa.BuscarRegistros();
             List<Garcom> garcons = repositorioGarcom.BuscarRegistros();
-            List<Produto> produtos = repositorioProduto.BuscarRegistros();
 
             CadastrarContaViewModel cadastrarVM = new CadastrarContaViewModel(mesas, garcons);
 
@@ -80,9 +83,8 @@ namespace ControleDeBar.WebApp.Controllers
 
             Mesa mesaSelecionada = repositorioMesa.BuscarRegistroPorID(cadastrarVM.MesaID);
             Garcom garcomSelecionado = repositorioGarcom.BuscarRegistroPorID(cadastrarVM.GarcomID);
-            Pedido pedido = new Pedido();
 
-            Conta conta = new Conta(cadastrarVM.NomeCliente, mesaSelecionada, garcomSelecionado, pedido);
+            Conta conta = new Conta(cadastrarVM.NomeCliente, mesaSelecionada, garcomSelecionado);
             conta.DataAbertura = DateTime.Now;
 
             repositorioConta.Cadastrar(conta);
@@ -94,7 +96,20 @@ namespace ControleDeBar.WebApp.Controllers
         {
             Conta contaSelecionada = repositorioConta.BuscarRegistroPorID(id);
 
-            FecharContaViewModel fecharVM = new FecharContaViewModel(contaSelecionada.Id, contaSelecionada.NomeCliente);
+            if (contaSelecionada.Status == "Fechada")
+                return RedirectToAction(nameof(Index));
+
+            FecharContaViewModel fecharVM = new FecharContaViewModel(
+                contaSelecionada.Id,
+                contaSelecionada.NomeCliente,
+                contaSelecionada.Mesa,
+                contaSelecionada.Garcom,
+                contaSelecionada.Pedidos,
+                contaSelecionada.DataAbertura,
+                contaSelecionada.ValorTotalConta);
+
+            if (fecharVM.Pedidos == null)
+                fecharVM.Pedidos = new List<Pedido>();
 
             return View(fecharVM);
         }

@@ -9,7 +9,7 @@
 <html>
 <body>
     <main>
-        <form class="col-4 needs-validation" asp-action="Cadastrar" method="post" novalidate>
+        <form class="col-4">
             <div class="mb-3">
                 <label class="form-label" asp-for="NomeCliente">Nome do Cliente:</label>
                 <input class="form-control" asp-for="NomeCliente" name="NomeCliente" id="NomeCliente" type="text" value="@Model.NomeCliente" disabled>
@@ -31,9 +31,9 @@
             </div>
 
             <div class="mb-3">
-                <h5>Produtos</h5>
+                <h5>Pedidos</h5>
                 <table class="table table-striped">
-                        @foreach (ProdutoPedido p in Model.Pedido.Produtos)
+                        @foreach (Pedido p in Model.Pedidos)
                         {
                             <thead>
                                 <tr>
@@ -44,8 +44,8 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>@p.Nome</td>
-                                    <td>@p.Preco</td>
+                                    <td>@p.Produto.Nome</td>
+                                    <td>@p.Produto.Preco</td>
                                     <td>@p.Quantidade</td>
                                 </tr>
                             </tbody>

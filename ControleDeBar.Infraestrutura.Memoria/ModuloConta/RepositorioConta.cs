@@ -13,25 +13,38 @@ namespace ControleDeBar.Infraestrutura.Memoria.ModuloConta
         {
             base.Cadastrar(conta);
 
-            CalcularValorPedido(conta);
+            CalcularValorTotalConta(conta);
             conta.Mesa.Ocupar();
             conta.Mesa.TemPedido = true;
             conta.Garcom.TemPedido = true;
         }
 
-        public void CalcularValorPedido(Conta conta)
+        public void AdicionarPedido(Produto produto, Conta conta, decimal quantidade)
         {
-            foreach (ProdutoPedido produtoPedido in conta.Pedido.Produtos)
+            int idPedido = UltimoIDPedido() + 1;
+            Pedido pedido = new Pedido(idPedido, produto, quantidade);
+            conta.Pedidos.Add(pedido);
+        }
+
+        public void RemoverPedido(Produto produto, Conta conta)
+        {
+            foreach (Pedido p in conta.Pedidos)
             {
-                conta.Pedido.ValorTotal += produtoPedido.Preco * produtoPedido.Quantidade;
+                if (p.Produto.Id == produto.Id)
+                    conta.Pedidos.Remove(p);
             }
         }
 
-        public bool ProdutoExisteNoPedido(Produto produto, Conta conta)
+        public void CalcularValorTotalConta(Conta conta)
         {
-            if (conta.Pedido.Produtos.Contains(produto))
-                return true;
-            return false;
+            foreach (Pedido p in conta.Pedidos)
+                conta.ValorTotalConta += p.ValorPedido;
+        }
+
+        public void FecharConta(Conta conta)
+        {
+            conta.Status = "Fechada";
+            conta.Mesa.Desocupar();
         }
 
         public decimal ValorFechamentoDiario()
@@ -43,32 +56,35 @@ namespace ControleDeBar.Infraestrutura.Memoria.ModuloConta
             {
                 if (dataAtual.Day == conta.DataAbertura.Day)
                 {
-                    valorFechamento += conta.Pedido.ValorTotal;
+                    valorFechamento += conta.ValorTotalConta;
                 }
             }
             return valorFechamento;
         }
 
-        public void AdicionarProdutoNoPedido(Produto produto, Conta conta)
+        public int UltimoIDPedido()
         {
-            if (!ProdutoExisteNoPedido(produto, conta))
+            int ultimoID = 0;
+
+            foreach (Conta c in listaRegistros)
             {
-                conta.Pedido.Produtos.Add((ProdutoPedido)produto);
+                foreach (Pedido p in c.Pedidos)
+                    ultimoID = p.Id;
             }
+            return ultimoID;
         }
 
-        public void RemoverProdutoDoPedido(Produto produto, Conta conta)
+        public bool ProdutoTemPedido(Produto produto)
         {
-            if (ProdutoExisteNoPedido(produto, conta))
+            foreach (Conta c in listaRegistros)
             {
-                conta.Pedido.Produtos.Remove((ProdutoPedido)produto);
+                foreach (Pedido p in c.Pedidos)
+                {
+                    if (p.Produto.Id == produto.Id)
+                        return true;
+                }
             }
-        }
-
-        public void FecharConta(Conta conta)
-        {
-            conta.Status = "Fechada";
-            conta.Mesa.Desocupar();
+            return false;
         }
 
         public override bool RegistroDuplicado(Conta registro)
