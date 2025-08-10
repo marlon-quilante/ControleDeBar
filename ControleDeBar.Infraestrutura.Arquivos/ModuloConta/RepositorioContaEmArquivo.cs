@@ -33,17 +33,21 @@ namespace ControleDeBar.Infraestrutura.Arquivos.ModuloConta
             int idPedido = UltimoIDPedido() + 1;
             Pedido pedido = new Pedido(idPedido, produto, quantidade);
             conta.Pedidos.Add(pedido);
+            CalcularValorTotalConta(conta);
             contextoDados.Salvar();
         }
 
         public void RemoverPedido(Pedido pedido, Conta conta)
         {
             conta.Pedidos.Remove(pedido);
+            CalcularValorTotalConta(conta);
             contextoDados.Salvar();
         }
 
         public void CalcularValorTotalConta(Conta conta)
         {
+            conta.ValorTotalConta = 0;
+
             foreach (Pedido p in conta.Pedidos)
                 conta.ValorTotalConta += p.ValorPedido;
         }
@@ -101,10 +105,24 @@ namespace ControleDeBar.Infraestrutura.Arquivos.ModuloConta
 
             foreach (Conta c in contas)
             {
-                foreach (Pedido p in c.Pedidos)
-                    ultimoID = p.Id;
+                if (c.Pedidos != null)
+                {
+                    foreach (Pedido p in c.Pedidos)
+                        ultimoID = p.Id;
+                }
             }
             return ultimoID;
+        }
+
+        public Pedido BuscarPedidoPorID(int id)
+        {
+            foreach (Conta c in BuscarRegistros())
+            {
+                foreach (Pedido p in c.Pedidos)
+                    if (p.Id == id) 
+                        return p;
+            }
+            return null;
         }
 
         public override bool RegistroDuplicado(Conta registro)

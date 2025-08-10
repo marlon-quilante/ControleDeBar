@@ -1,6 +1,7 @@
 ﻿using ControleDeBar.Dominio.ModuloConta;
 using ControleDeBar.Dominio.ModuloGarcom;
 using ControleDeBar.Dominio.ModuloMesa;
+using ControleDeBar.Dominio.ModuloProduto;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
@@ -30,15 +31,10 @@ namespace ControleDeBar.WebApp.Models
         public string NomeCliente { get; set; }
         public Mesa Mesa { get; set; }
         public Garcom Garcom { get; set; }
-        public List<Pedido> Pedidos { get; set; }
+        public List<PedidoContaViewModel> Pedidos { get; set; }
         public string Status { get; set; }
         public DateTime DataAbertura { get; set; }
         public decimal ValorTotalConta { get; set; }
-
-        public DetalhesContaViewModel()
-        {
-            Pedidos = new List<Pedido>();
-        }
 
         public DetalhesContaViewModel(int id, string nomeCliente, Mesa mesa, Garcom garcom, List<Pedido> pedidos, DateTime dataAbertura, string status, decimal valorTotalConta)
         {
@@ -46,10 +42,21 @@ namespace ControleDeBar.WebApp.Models
             NomeCliente = nomeCliente;
             Mesa = mesa;
             Garcom = garcom;
-            Pedidos = pedidos;
             DataAbertura = dataAbertura;
             Status = status;
             ValorTotalConta = valorTotalConta;
+
+            Pedidos = new List<PedidoContaViewModel>();
+
+            if (pedidos != null)
+            {
+                foreach (Pedido p in pedidos)
+                {
+                    PedidoContaViewModel pedidoVM = new PedidoContaViewModel(p.Id, p.Produto, p.Quantidade, p.ValorPedido);
+
+                    Pedidos.Add(pedidoVM);
+                }
+            }
         }
     }
 
@@ -123,6 +130,60 @@ namespace ControleDeBar.WebApp.Models
                 }
             }
         }
+    }
+
+    public class PedidoContaViewModel 
+    {
+        public int Id { get; set; }
+        public Produto Produto { get; set; }
+        public decimal Quantidade { get; set; }
+        public decimal ValorPedido { get; set; }
+
+        public PedidoContaViewModel() { }
+
+        public PedidoContaViewModel(int id, Produto produto, decimal quantidade, decimal valorPedido)
+        {
+            Id = id;
+            Produto = produto;
+            Quantidade = quantidade;
+            ValorPedido = valorPedido;
+        }
+    }
+
+    public class GerenciarPedidosViewModel 
+    {
+        public DetalhesContaViewModel Conta { get; set; }
+        public List<SelectListItem> ProdutosDisponiveis { get; set; }
+
+        public GerenciarPedidosViewModel() { }
+
+        public GerenciarPedidosViewModel(Conta conta, List<Produto> produtos) : this()
+        {
+            Conta = new DetalhesContaViewModel(
+                conta.Id,
+                conta.NomeCliente,
+                conta.Mesa,
+                conta.Garcom,
+                conta.Pedidos,
+                conta.DataAbertura,
+                conta.Status,
+                conta.ValorTotalConta);
+
+            ProdutosDisponiveis = new List<SelectListItem>();
+
+            foreach (Produto p in produtos)
+            {
+                SelectListItem selectItem = new SelectListItem(p.Nome, p.Id.ToString());
+
+                ProdutosDisponiveis.Add(selectItem);
+            }
+        }
+    }
+
+    public class AdicionarPedidoViewModel 
+    {
+        public int IDProduto { get; set; }
+        public int Quantidade { get; set; }
     }
 
     public class FecharContaViewModel 

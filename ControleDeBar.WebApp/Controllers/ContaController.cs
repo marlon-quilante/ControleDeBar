@@ -14,6 +14,7 @@ namespace ControleDeBar.WebApp.Controllers
 {
     public class ContaController : Controller
     {
+        private readonly ContextoDados contextoDados;
         private readonly RepositorioContaEmArquivo repositorioConta;
         private readonly RepositorioMesaEmArquivo repositorioMesa;
         private readonly RepositorioGarcomEmArquivo repositorioGarcom;
@@ -21,7 +22,7 @@ namespace ControleDeBar.WebApp.Controllers
 
         public ContaController()
         {
-            ContextoDados contextoDados = new ContextoDados(carregarDados: true);
+            contextoDados = new ContextoDados(carregarDados: true);
             repositorioConta = new RepositorioContaEmArquivo(contextoDados);
             repositorioMesa = new RepositorioMesaEmArquivo(contextoDados);
             repositorioGarcom = new RepositorioGarcomEmArquivo(contextoDados);
@@ -52,7 +53,7 @@ namespace ControleDeBar.WebApp.Controllers
                 contaSelecionada.ValorTotalConta);
 
             if (detalhesVM.Pedidos == null)
-                detalhesVM.Pedidos = new List<Pedido>();
+                detalhesVM.Pedidos = new List<PedidoContaViewModel>();
 
             return View(detalhesVM);
         }
@@ -90,6 +91,47 @@ namespace ControleDeBar.WebApp.Controllers
             repositorioConta.Cadastrar(conta);
 
             return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult GerenciarPedidos(int id)
+        {
+            Conta contaSelecionada = repositorioConta.BuscarRegistroPorID(id);
+            List<Produto> produtos = repositorioProduto.BuscarRegistros();
+
+            GerenciarPedidosViewModel gerenciarPedidosVM = new GerenciarPedidosViewModel(contaSelecionada, produtos);
+
+            return View(gerenciarPedidosVM);
+        }
+
+        [HttpPost]
+        public IActionResult AdicionarPedido(int id, AdicionarPedidoViewModel adicionarProdutoVM)
+        {
+            Conta contaSelecionada = repositorioConta.BuscarRegistroPorID(id);
+            Produto produto = repositorioProduto.BuscarRegistroPorID(adicionarProdutoVM.IDProduto);
+
+            repositorioConta.AdicionarPedido(produto, contaSelecionada, adicionarProdutoVM.Quantidade);
+
+            List<Produto> produtos = repositorioProduto.BuscarRegistros();
+
+            GerenciarPedidosViewModel gerenciarPedidosVM = new GerenciarPedidosViewModel(contaSelecionada, produtos);
+
+            return View(nameof(GerenciarPedidos), gerenciarPedidosVM);
+        }
+
+        [HttpPost]
+        public IActionResult RemoverPedido(int id, int idPedido)
+        {
+            Conta contaSelecionada = repositorioConta.BuscarRegistroPorID(id);
+
+            Pedido pedido = repositorioConta.BuscarPedidoPorID(idPedido);
+
+            repositorioConta.RemoverPedido(pedido, contaSelecionada);
+
+            List<Produto> produtos = repositorioProduto.BuscarRegistros();
+
+            GerenciarPedidosViewModel gerenciarPedidosVM = new GerenciarPedidosViewModel(contaSelecionada, produtos);
+
+            return View(nameof(GerenciarPedidos), gerenciarPedidosVM);
         }
 
         public IActionResult Fechar(int id)

@@ -21,14 +21,7 @@ namespace ControleDeBar.Dominio.ModuloConta
             NomeCliente = nomeCliente;
             Mesa = mesa;
             Garcom = garcom;
-        }
-
-        public Conta(string nomeCliente, Mesa mesa, Garcom garcom, List<Pedido> pedidos)
-        {
-            NomeCliente = nomeCliente;
-            Mesa = mesa;
-            Garcom = garcom;
-            Pedidos = pedidos;
+            Pedidos = new List<Pedido>();
         }
 
         public override bool TemRestricaoDeExclusao()

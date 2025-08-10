@@ -138,10 +138,7 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             Console.WriteLine();
             Pedido pedido = ObterDadosPedido();
 
-            List<Pedido> pedidos = new List<Pedido>();
-            pedidos.Add(pedido);
-
-            return new Conta(nomeCliente, mesa, garcom, pedidos);
+            return new Conta(nomeCliente, mesa, garcom);
         }
 
         private Garcom ObterDadosGarcom()

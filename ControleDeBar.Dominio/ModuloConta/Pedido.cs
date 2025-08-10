@@ -9,6 +9,8 @@ namespace ControleDeBar.Dominio.ModuloConta
         public decimal Quantidade { get; set; }
         public decimal ValorPedido { get; set; }
 
+        public Pedido() { }
+
         public Pedido(Produto produto, decimal quantidade)
         {
             Produto = produto;
