@@ -29,11 +29,20 @@ namespace ControleDeBar.WebApp.Controllers
             repositorioProduto = new RepositorioProdutoEmArquivo(contextoDados);
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string? status)
         {
-            List<Conta> contas = repositorioConta.BuscarRegistros();
+            List<Conta> contas;
+
+            switch (status)
+            {
+                case "Abertas": contas = repositorioConta.BuscarRegistros().Where(x => x.Status == "Aberta").ToList(); break;
+                case "Fechadas": contas = repositorioConta.BuscarRegistros().Where(x => x.Status == "Fechada").ToList(); break;
+                default: contas = repositorioConta.BuscarRegistros(); break;
+            }
 
             VisualizarContasViewModel visualizarVM = new VisualizarContasViewModel(contas);
+
+            ViewBag.StatusAtual = status ?? "Todas";
 
             return View(visualizarVM);
         }
@@ -151,7 +160,7 @@ namespace ControleDeBar.WebApp.Controllers
                 contaSelecionada.ValorTotalConta);
 
             if (fecharVM.Pedidos == null)
-                fecharVM.Pedidos = new List<Pedido>();
+                fecharVM.Pedidos = new List<PedidoContaViewModel>();
 
             return View(fecharVM);
         }

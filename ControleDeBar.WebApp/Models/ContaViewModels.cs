@@ -53,7 +53,6 @@ namespace ControleDeBar.WebApp.Models
                 foreach (Pedido p in pedidos)
                 {
                     PedidoContaViewModel pedidoVM = new PedidoContaViewModel(p.Id, p.Produto, p.Quantidade, p.ValorPedido);
-
                     Pedidos.Add(pedidoVM);
                 }
             }
@@ -98,7 +97,7 @@ namespace ControleDeBar.WebApp.Models
 
     public class CadastrarContaViewModel
     {
-        [MinLength(2, ErrorMessage = "O nome do cliente possuir no mínimo 2 caracteres")]
+        [MinLength(2, ErrorMessage = "O nome do cliente deve possuir no mínimo 2 caracteres")]
         public string NomeCliente { get; set; }
         public DateTime DataAbertura { get; set; }
         public int GarcomID { get; set; }
@@ -192,7 +191,7 @@ namespace ControleDeBar.WebApp.Models
         public string NomeCliente { get; set; }
         public Mesa Mesa { get; set; }
         public Garcom Garcom { get; set; }
-        public List<Pedido> Pedidos { get; set; }
+        public List<PedidoContaViewModel> Pedidos { get; set; }
         public string Status { get; set; }
         public DateTime DataAbertura { get; set; }
         public decimal ValorTotalConta { get; set; }
@@ -203,9 +202,16 @@ namespace ControleDeBar.WebApp.Models
             NomeCliente = nomeCliente;
             Mesa = mesa;
             Garcom = garcom;
-            Pedidos = pedidos;
             DataAbertura = dataAbertura;
             ValorTotalConta = valorTotalConta;
+
+            Pedidos = new List<PedidoContaViewModel>();
+
+            foreach (Pedido p in pedidos)
+            {
+                PedidoContaViewModel pedidoVM = new PedidoContaViewModel(p.Id, p.Produto, p.Quantidade, p.ValorPedido);
+                Pedidos.Add(pedidoVM);
+            }
         }
     }
 }
