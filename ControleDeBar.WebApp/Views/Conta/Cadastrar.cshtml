@@ -7,37 +7,39 @@
 <html>
 <body>
     <main>
-        <form class="col-4 needs-validation" asp-action="Cadastrar" method="post" novalidate>
-            <div class="mb-3">
-                <label class="form-label" asp-for="NomeCliente">Nome do Cliente:</label>
-                <input class="form-control" asp-for="NomeCliente" name="NomeCliente" id="NomeCliente" type="text" placeholder="Digite o nome do cliente..." required>
-                <span asp-validation-for="NomeCliente" class="text-danger"></span>
-                <div class="invalid-feedback">
-                    Informe o nome do cliente!
+        <div>
+            <form class="col-4 needs-validation" asp-action="Cadastrar" method="post" novalidate>
+                <div class="mb-3">
+                    <label class="form-label" asp-for="NomeCliente">Nome do Cliente:</label>
+                    <input class="form-control" asp-for="NomeCliente" name="NomeCliente" id="NomeCliente" type="text" placeholder="Digite o nome do cliente..." required>
+                    <span asp-validation-for="NomeCliente" class="text-danger"></span>
+                    <div class="invalid-feedback">
+                        Informe o nome do cliente!
+                    </div>
                 </div>
-            </div>
 
-            <div class="mb-3">
-                <label class="form-label" asp-for="MesaID">Número da Mesa:</label>
-                <select asp-for="MesaID" asp-items="@Model.MesasDisponiveis" class="form-select"></select>
-                <div class="invalid-feedback">
-                    Selecione uma mesa!
+                <div class="mb-3">
+                    <label class="form-label" asp-for="MesaID">Número da Mesa:</label>
+                    <select asp-for="MesaID" asp-items="@Model.MesasDisponiveis" class="form-select"></select>
+                    <div class="invalid-feedback">
+                        Selecione uma mesa!
+                    </div>
                 </div>
-            </div>
 
-            <div class="mb-3">
-                <label class="form-label" asp-for="GarcomID">Garçom:</label>
-                <select asp-for="GarcomID" asp-items="@Model.GarconsDisponiveis" class="form-select"></select>
-                <div class="invalid-feedback">
-                    Selecione um garçom!
+                <div class="mb-3">
+                    <label class="form-label" asp-for="GarcomID">Garçom:</label>
+                    <select asp-for="GarcomID" asp-items="@Model.GarconsDisponiveis" class="form-select"></select>
+                    <div class="invalid-feedback">
+                        Selecione um garçom!
+                    </div>
                 </div>
-            </div>
 
-            <div class="d-flex justify-content-end">
-                <a class="btn btn-secondary px-4 me-1" asp-action="Index">Voltar</a>
-                <button class="btn btn-success px-4" type="submit">Salvar</button>
-            </div>
-        </form>
+                <div class="d-flex justify-content-end">
+                    <a class="btn btn-secondary px-4 me-1" asp-action="Index">Voltar</a>
+                    <button class="btn btn-success px-4" type="submit">Salvar</button>
+                </div>
+            </form>
+        </div>
     </main>
 
     @* Script de validação com Bootstrap *@
