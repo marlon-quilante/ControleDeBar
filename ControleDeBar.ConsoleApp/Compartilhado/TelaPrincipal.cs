@@ -2,6 +2,10 @@
 using ControleDeBar.ConsoleApp.ModuloGarcom;
 using ControleDeBar.ConsoleApp.ModuloMesa;
 using ControleDeBar.ConsoleApp.ModuloProduto;
+using ControleDeBar.Infraestrutura.Memoria.ModuloConta;
+using ControleDeBar.Infraestrutura.Memoria.ModuloGarcom;
+using ControleDeBar.Infraestrutura.Memoria.ModuloMesa;
+using ControleDeBar.Infraestrutura.Memoria.ModuloProduto;
 
 namespace ControleDeBar.ConsoleApp.Compartilhado
 {
@@ -31,9 +35,11 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
             telaGarcom = new TelaGarcom(repositorioGarcom);
 
             repositorioProduto = new RepositorioProduto();
+            repositorioProduto.repositorioConta = repositorioConta;
             telaProduto = new TelaProduto(repositorioProduto);
 
             repositorioConta = new RepositorioConta();
+            repositorioConta.repositorioProduto = repositorioProduto;
             telaConta = new TelaConta(repositorioConta);
             telaConta.repositorioMesa = repositorioMesa;
             telaConta.repositorioGarcom = repositorioGarcom;

@@ -1,0 +1,42 @@
+﻿@model VisualizarMesasViewModel
+
+@{
+    ViewBag.Titulo = "Mesas";
+}
+
+<html>
+<body>
+    <div>
+        <a class="btn btn-primary mb-3" href="/Mesa/Cadastrar">
+            <i class="bi bi-plus"></i>
+            Cadastrar
+        </a>
+    </div>
+
+    <main>
+        <div class="row g-2">
+            @foreach (DetalhesMesaViewModel m in Model.Registros)
+            {
+                <div class="col-md-6 col-lg-5 col-xl-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Mesa Nº @m.Numero</h5>
+                            <p class="card-text mb-0"><strong>Qtd. de Lugares: </strong>@m.QtdLugares</p>
+                            <p class="card-text mb-0"><strong>Status: </strong>@m.Status</p>
+
+                            <div class="d-flex justify-content-end">
+                                <a class="btn btn-primary rounded-circle me-2 d-flex justify-content-center align-items-center" style="height: 35px; width: 35px" href="/Mesa/Editar/@m.Id">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a class="btn btn-danger rounded-circle d-flex justify-content-center align-items-center" style="height: 35px; width: 35px" href="/Mesa/Excluir/@m.Id">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </main>
+</body>
+</html>

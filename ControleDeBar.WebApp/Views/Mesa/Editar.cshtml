@@ -1,0 +1,53 @@
+﻿@model EditarMesaViewModel
+
+@{
+    ViewBag.Titulo = "Edição de Mesa";
+}
+
+<html>
+<body>
+    <main>
+        <form class="col-4 needs-validation" action="/Mesa/Editar/@Model.Id" method="post" novalidate>
+            <div class="mb-3">
+                <label for="Numero" class="form-label">Número:</label>
+                <input name="Numero" id="Numero" type="number" class="form-control" value="@Model.Numero" required>
+                <div class="invalid-feedback">
+                    Informe o número da mesa!
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="QtdLugares" class="form-label">Quantidade de Lugares:</label>
+                <input name="QtdLugares" id="QtdLugares" type="number" class="form-control" value="@Model.QtdLugares" required>
+                <div class="invalid-feedback">
+                    Informe a quantidade de lugares!
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end">
+                <a class="btn btn-secondary px-4 me-1" asp-action="Index">Voltar</a>
+                <button class="btn btn-success px-4 me-1" type="submit">Salvar</button>
+            </div>
+        </form>
+    </main>
+
+    @* Script de validação com Bootstrap *@
+    <script>
+        (() => {
+            'use strict'
+
+            const forms = document.querySelectorAll('.needs-validation')
+
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()){
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+</body>
+</html>
