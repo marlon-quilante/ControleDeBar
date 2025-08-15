@@ -4,14 +4,8 @@
     ViewBag.Titulo = "Exclusão de Mesa";
 }
 
-<html>
-<body>
-    <main class="col-4">
-        <form action="/Mesa/ExcluirConfirmado/@Model.Id" method="post">
-            <p class="fw-bold">Deseja realmente excluir a mesa @Model.Numero?</p>
-            <a class="btn btn-secondary" asp-action="Index">Voltar</a>
-            <button class="btn btn-danger" type="submit">Excluir</button>
-        </form>
-    </main>
-</body>
-</html>
+<form action="/Mesa/ExcluirConfirmado/@Model.Id" method="post">
+    <p class="fw-bold">Deseja realmente excluir a mesa @Model.Numero?</p>
+    <a class="btn btn-secondary" asp-action="Index">Voltar</a>
+    <button class="btn btn-danger" type="submit">Excluir</button>
+</form>
