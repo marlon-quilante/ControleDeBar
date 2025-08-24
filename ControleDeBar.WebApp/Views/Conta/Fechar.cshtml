@@ -26,6 +26,11 @@
             <label class="form-label" asp-for="DataAbertura">Data/Hora de Abertura:</label>
             <input class="form-control" asp-for="DataAbertura" name="DataAbertura" id="DataAbertura" type="text" value="@Model.DataAbertura" disabled>
         </div>
+
+        <div>
+            <a class="btn btn-secondary px-4" asp-action="Index">Voltar</a>
+            <button class="btn btn-success px-4" type="submit">Fechar</button>
+        </div>
     </form>
 
     <div class="col-md-6">
@@ -58,10 +63,4 @@
             </div>
         </div>
     </div>
-
-    <div class="container">
-        <a class="btn btn-secondary px-4 me-1" asp-action="Index">Voltar</a>
-        <button class="btn btn-success px-4" type="submit">Fechar</button>
-    </div>
-
 </div>
