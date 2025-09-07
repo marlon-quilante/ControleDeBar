@@ -1,4 +1,5 @@
-﻿@model EditarProdutoViewModel
+﻿@using System.Globalization
+@model EditarProdutoViewModel
 
 @{
     ViewBag.Titulo = "Edição de Produto";
@@ -16,7 +17,7 @@
 
     <div class="mb-3">
         <label class="form-label" asp-for="Preco">Preço:</label>
-        <input class="form-control" asp-for="Preco" name="Preco" id="Preco" type="text" pattern="^\d+([,\.]\d{1,2})?$" value="@Model.Preco" required>
+        <input class="form-control" asp-for="Preco" name="Preco" id="Preco" type="text" pattern="^\d+([,\.]\d{1,2})?$" value="@Model.Preco.ToString("F2", CultureInfo.CurrentCulture)" required>
         <div class="invalid-feedback">
             Informe o preço do produto!
         </div>
