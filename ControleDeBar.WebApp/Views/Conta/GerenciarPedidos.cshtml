@@ -71,9 +71,9 @@
                     <tbody>
                         <tr>
                             <td valign="middle">@p.Produto.Nome</td>
-                            <td valign="middle">@p.Produto.Preco.ToString("F2", CultureInfo.CurrentCulture)</td>
+                            <td valign="middle">@p.Produto.Preco.ToString("F2", new CultureInfo("pt-BR"))</td>
                             <td valign="middle">@p.Quantidade</td>
-                            <td valign="middle">@p.ValorPedido.ToString("F2", CultureInfo.CurrentCulture)</td>
+                            <td valign="middle">@p.ValorPedido.ToString("F2", new CultureInfo("pt-BR"))</td>
                             <td>
                                 <form class="my-auto"
                                       asp-action="RemoverPedido"
@@ -91,7 +91,7 @@
             </table>
             <div>
                 <label class="form-label">Valor Total da Conta:</label>
-                <h4>@Model.Conta.ValorTotalConta.ToString("C2", CultureInfo.CurrentCulture)</h4>
+                <h4>@Model.Conta.ValorTotalConta.ToString("C2", new CultureInfo("pt-BR"))</h4>
             </div>
         }
 
