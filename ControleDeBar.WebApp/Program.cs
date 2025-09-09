@@ -30,6 +30,8 @@ namespace ControleDeBar.WebApp
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseRequestLocalization();
+
             app.UseRouting();
 
             app.UseAuthorization();
