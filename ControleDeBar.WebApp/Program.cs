@@ -12,15 +12,14 @@ namespace ControleDeBar.WebApp
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            var cultureInfo = new CultureInfo("pt-BR");
-            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
-            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
-
-            var supportedCultures = new[] { cultureInfo };
-
             builder.Services.Configure<RequestLocalizationOptions>(options =>
             {
-                options.DefaultRequestCulture = new RequestCulture(cultureInfo);
+                var supportedCultures = new List<CultureInfo>
+                {
+                    new CultureInfo("pt-BR")
+                };
+
+                options.DefaultRequestCulture = new RequestCulture("pt-BR");
                 options.SupportedCultures = supportedCultures;
                 options.SupportedUICultures = supportedCultures;
             });
