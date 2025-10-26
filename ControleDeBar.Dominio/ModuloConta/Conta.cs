@@ -12,7 +12,7 @@ namespace ControleDeBar.Dominio.ModuloConta
         public Mesa Mesa { get; set; }
         public Garcom Garcom { get; set; }
         public string Status { get; set; } = "Aberta";
-        public DateTime DataAbertura { get; set; } = DateTime.Now;
+        public DateTime DataAbertura { get; set; } = DateTime.UtcNow;
 
         public Conta() { }
 
