@@ -1,41 +1,36 @@
-﻿@model VisualizarProdutosViewModel
+﻿@using System.Globalization
+@model VisualizarProdutosViewModel
 
 @{
     ViewBag.Titulo = "Produtos";
 }
 
-<html>
-<body>
-    <div>
-        <a class="btn btn-primary mb-3" href="/Produto/Cadastrar">
-            <i class="bi bi-plus"></i>
-            Cadastrar
-        </a>
-    </div>
+<div>
+    <a class="btn btn-primary mb-3" href="/Produto/Cadastrar">
+        <i class="bi bi-plus"></i>
+        Cadastrar
+    </a>
+</div>
 
-    <main>
-        <div class="row g-2">
-            @foreach (DetalhesProdutoViewModel p in Model.Registros)
-            {
-                <div class="col-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">@p.Nome</h5>
-                            <p class="card-text mb-0"><strong>Preço: </strong>@p.Preco.ToString("C2")</p>
+<div class="row g-2">
+    @foreach (DetalhesProdutoViewModel p in Model.Registros)
+    {
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@p.Nome</h5>
+                    <p class="card-text mb-0"><strong>Preço: </strong>@p.Preco.ToString("C2")</p>
 
-                            <div class="d-flex justify-content-end">
-                                <a class="btn btn-primary rounded-circle me-2 d-flex justify-content-center align-items-center" style="height: 35px; width: 35px" href="/Produto/Editar/@p.Id">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
-                                <a class="btn btn-danger rounded-circle d-flex justify-content-center align-items-center" style="height: 35px; width: 35px" href="/Produto/Excluir/@p.Id">
-                                    <i class="bi bi-trash"></i>
-                                </a>
-                            </div>
-                        </div>
+                    <div class="d-flex justify-content-end">
+                        <a class="btn btn-primary rounded-circle me-2 d-flex justify-content-center align-items-center" style="height: 35px; width: 35px" href="/Produto/Editar/@p.Id">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <a class="btn btn-danger rounded-circle d-flex justify-content-center align-items-center" style="height: 35px; width: 35px" href="/Produto/Excluir/@p.Id">
+                            <i class="bi bi-trash"></i>
+                        </a>
                     </div>
                 </div>
-            }
+            </div>
         </div>
-    </main>
-</body>
-</html>
+    }
+</div>

@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
+
 namespace ControleDeBar.WebApp
 {
     public class Program
@@ -9,10 +12,24 @@ namespace ControleDeBar.WebApp
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            builder.Services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new List<CultureInfo>
+                {
+                    new CultureInfo("pt-BR")
+                };
+
+                options.DefaultRequestCulture = new RequestCulture("pt-BR");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
+
             var app = builder.Build();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseRequestLocalization();
 
             app.UseRouting();
 
